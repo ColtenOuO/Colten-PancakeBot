@@ -9,10 +9,15 @@ class database:
         def __init__(self, add_money_val: int, pancake: int) -> None:
             self.add_money_val = add_money_val
             self.pancake = pancake
-        def update_money(self, db: 'database', discord_id: str, money: int, ) -> None:
+        def update_money(self, db: 'database', discord_id: str) -> None:
             USER_DATA = db.User_Query(discord_id)
             target_data = { 'discord_id': discord_id }
             new_data = { '$set': { 'money': USER_DATA["money"] + self.add_money_val } }
+            db.client.pythondb["discord_user_data"].update_one(target_data,new_data)
+        def update_pancake(self, db: 'database', discord_id: str) -> None:
+            USER_DATA = db.User_Query(discord_id)
+            target_data = { 'discord_id': discord_id }
+            new_data = { '$set': { 'pancake': USER_DATA["pancake"] + self.pancake } }
             db.client.pythondb["discord_user_data"].update_one(target_data,new_data)
 
     def __init__(self) -> None:
@@ -40,4 +45,3 @@ class database:
         for USER in all_user_data:
             if( USER["discord_id"] == user_id ): return USER
         return None
-
