@@ -25,7 +25,7 @@ class FishingCommands(commands.Cog):
     async def fishing_cmd(self, ctx):  # Renamed function to avoid naming conflict
         fish_result = fishing_instance.get_fish()
         cm = round(random.uniform(0, 1000))
-        dv = round(random.uniform(1, 200))
+        dv = round(random.uniform(1, 20))
         
         if( db.Register_Query(ctx.author.id) == False ): db.Registered(ctx.author.id)
         get_money: int
@@ -48,7 +48,11 @@ class FishingCommands(commands.Cog):
         print(num)
         target_money = db.User_Query(member.id)["money"]
         steal_money = round(random.uniform(0,target_money/2))
-        if( num >= 70 ):
+
+        if( ctx.author.id == member.id ): await ctx.respond("你偷你自己幹嘛？？你結帳 +10")
+        elif( target_money <= 0 ): await ctx.respond("你想偷的人已經負債或沒有錢了！不要再偷他了QQ")
+        elif( db.User_Query(ctx.author.id)["money"] < 0 ): await ctx.respond("你現在都負債了還想偷錢R")
+        elif( num >= 70 ):
             await ctx.respond(f"Successful Stealing！你偷走了 {member.mention} {steal_money} 元")
             money_change = db.update_user(-steal_money,0)
             money_change.update_money(db,member.id)
@@ -61,12 +65,37 @@ class FishingCommands(commands.Cog):
             money_change = db.update_user(-num,0)
             money_change.update_money(db,ctx.author.id)
 
-            pancake_get = round(random.uniform(0,3))
+            pancake_get = round(random.uniform(0,10))
             adding_pancake = db.update_user(0,pancake_get)
             adding_pancake.update_pancake(db,member.id)
 
             await ctx.respond(f"Unsuccessful Stealing，你嘗試偷取 {member.mention} 的錢失敗，損失了 {num} 元")
             await ctx.send(f"【公告】由於 {member.mention} 遭到偷取財產失敗，因此獲得 {pancake_get} 個鬆餅")
+    
+    @commands.slash_command(name="pancake",description="查詢你現在有幾個鬆餅")
+    async def Pancake(self, ctx):
+        ans = db.User_Query(ctx.author.id)
+        if( ans == None ): await ctx.respond("你現在擁有 0 個鬆餅")
+        else:
+            await ctx.respond(f"你現在擁有 {ans["pancake"]} 個鬆餅")
+            if( ans["pancake"] < 0 ): await ctx.send("為什麼你的鬆餅數量是負數？？？你是不是一直在想辦法從系統偷到更多鬆餅")
+    @commands.slash_command(name="pancake_exchange",description="把鬆餅拿去換錢")
+    async def Pancake_Exchange(self, ctx, cnt: int):
+        DATA = db.User_Query(ctx.author.id)
+        if( cnt > DATA["pancake"] ): await ctx.respond("你根本沒有這麼多的鬆餅，不要以為我不知道！")
+        elif( cnt == 0 ): await ctx.respond("你沒有要換任何鬆餅那你找我幹嘛？，你結帳+10")
+        elif( cnt < 0 ):
+            await ctx.respond(f"你為什麼要輸入負數？你完蛋了，我要把你輸入的東西變成你鬆餅增加的數量，所以你的鬆餅數量增加了 {cnt} 個")
+            pancake_cahange = db.update_user(0,cnt)
+            pancake_cahange.update_pancake(db,ctx.author.id)
+        else:
+            pancake_cahange = db.update_user(0,-cnt)
+            pancake_cahange.update_pancake(db,ctx.author.id)
+
+            adding_money = db.update_user(cnt*100,0)
+            adding_money.update_money(db,ctx.author.id)
+
+            await ctx.respond(f"兌換成功！你兌換了 {cnt} 個鬆餅")
 
 
 
