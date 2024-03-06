@@ -1,8 +1,17 @@
 from pydantic import BaseModel
 
-from .item import Item
+from typing import Optional
+
 
 class User(BaseModel):
     user_id: int
     money: int = 0
-    items: list[Item] = []
+    pancake: int = 0
+    experience: int = 0
+
+
+class UserUpdate(BaseModel):
+    user_id: Optional[int] = None
+    money: Optional[int] = None
+    pancake: Optional[int] = None
+    experience: Optional[int] = None

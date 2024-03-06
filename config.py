@@ -1,11 +1,21 @@
 from pydantic import BaseModel
 from orjson import loads, dumps, OPT_INDENT_2
 
+from typing import Optional
+
+
+class MongoDBConfig(BaseModel):
+    host: str = "127.0.0.1"
+    port: int = 27017
+    username: Optional[str] = None
+    password: Optional[str] = None
+
 
 class Config(BaseModel):
     token: str = ""
     data_dir: str = "data"
     managers: list[int] = []
+    mongodb: MongoDBConfig = MongoDBConfig()
 
 
 try:
@@ -21,3 +31,5 @@ except:
 TOKEN = config.token
 DATA_DIR = config.data_dir
 MANAGERS = config.managers
+
+MONGO_DB = config.mongodb

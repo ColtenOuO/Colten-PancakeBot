@@ -1,7 +1,7 @@
 {
-    "SleepSleepHistory": {
+    "Fishing": {
         "path": "cogs.fishing",
-        "description": "Sleep Sleep History",
+        "description": "Fishing",
         "load_on_start": true
     }
 }
