@@ -13,11 +13,12 @@ with open('token.json') as f:
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="", intents=intents)
 token = tokens['tokens']
-initial_extensions = ['slash_command.fishing']
+initial_extensions = ['slash_command.fishing','slash_command.item_command']
 
 # Bot ready event
 @bot.event
 async def on_ready():
+    db = database()
     print(">> Bot is online <<")
 
 

@@ -1,7 +1,9 @@
 import discord
 from discord.ext import commands
+from item.item_db import item_system
 from db import database
 import random
+import math
 
 
 class Fishing:
@@ -15,6 +17,10 @@ class Fishing:
 
 fishing_instance = Fishing()  # Renamed variable to avoid naming conflict
 db = database()
+item_db = item_system()
+
+for i in db.client.pythondb["discord_user_data"].find():
+    if( item_db.user_query(i["discord_id"]) == None ): item_db.user_adding(i["discord_id"])
 
 class FishingCommands(commands.Cog):
     def __init__(self, bot):
@@ -23,17 +29,27 @@ class FishingCommands(commands.Cog):
     
     @commands.slash_command(name="fishing",description="釣起一隻魚，目前釣起高睿的機率為 1/90 !")
     async def fishing_cmd(self, ctx):  # Renamed function to avoid naming conflict
-        fish_result = fishing_instance.get_fish()
-        cm = round(random.uniform(0, 1000))
-        dv = round(random.uniform(1, 20))
+        
+        DATA = item_db.user_query(ctx.author.id)
+        fish_list = []
+        total: int = 0
+        total_times: int = int(math.log10(DATA["exp"]))
+        print(total_times)
+        while(total_times != 0):
+            print(i)
+            fish_result = fishing_instance.get_fish()
+            fish_list.append(fish_result)
+            cm = round(random.uniform(0, 1000))
+            dv = round(random.uniform(1, 20))
+            total += int( cm / dv )
+            total_times -= 1
+
         
         if( db.Register_Query(ctx.author.id) == False ): db.Registered(ctx.author.id)
-        get_money: int
-        get_money = int(cm / dv)
         
-        await ctx.respond(f"你釣起了一隻 {cm} cm 的 {fish_result} 獲得了 {get_money} 元")
+        await ctx.respond(f"你共釣起了 {len(fish_list)} 隻魚，他們分別是 {fish_list}，你總共獲得了 {total} 元")
         
-        adding_money = db.update_user(get_money,0)
+        adding_money = db.update_user(total,0)
         adding_money.update_money(db,ctx.author.id)
     
     @commands.slash_command(name="money",description="查詢自己有多少錢")
@@ -60,6 +76,10 @@ class FishingCommands(commands.Cog):
             adding_money = db.update_user(steal_money,0)
             adding_money.update_money(db,ctx.author.id)
 
+            expect_exp = round(random.uniform(0,50))
+            await ctx.send(f"由於 {ctx.author.mention} 成功偷取別人的財產，獲得了 {expect_exp} 點經驗值")
+            item_db.exp_update(item_db,ctx.author.id,expect_exp)
+            
         else:
             num = round(random.uniform(0,target_money/5))
             money_change = db.update_user(-num,0)
