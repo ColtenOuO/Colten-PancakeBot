@@ -118,6 +118,7 @@ class System(GroupCog):
         options=[
             Option(
                 str,
+                name="cog_name",
                 description="cog path",
                 required=True,
                 autocomplete=_loaded_cogs,
@@ -143,6 +144,7 @@ class System(GroupCog):
         options=[
             Option(
                 str,
+                name="cog_name",
                 description="cog path",
                 required=True,
                 autocomplete=_loaded_cogs,
