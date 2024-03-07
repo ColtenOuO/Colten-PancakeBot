@@ -169,7 +169,7 @@ class Fishing(Cog):
         else:
             # Steal failed
             # Calculate loss money and pancake
-            loss_money = randint(0, target_user.money / 5)
+            loss_money = int(uniform(0, target_user.money / 5))
             add_pancake = randint(0, 10)
 
             # Update user's money
