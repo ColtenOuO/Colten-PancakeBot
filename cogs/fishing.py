@@ -145,7 +145,7 @@ class Fishing(Cog):
         if random() < 0.3:
             # Steal success
             # Calculate steal money and get experience
-            steal_money = randint(0, target_user.money / 2)
+            steal_money = int(uniform(0, target_user.money / 2))
             add_experience = int(steal_money * uniform(0, 1))
 
             # Update user's money
