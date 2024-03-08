@@ -163,3 +163,4 @@ config.json
 data
 *~
 test*
+token.json

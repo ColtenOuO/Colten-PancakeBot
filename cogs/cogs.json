@@ -3,5 +3,10 @@
         "path": "cogs.fishing",
         "description": "Fishing",
         "load_on_start": true
+    },
+    "BankSystem": {
+        "path": "cogs.bank",
+        "description": "Bank",
+        "load_on_start": true
     }
 }

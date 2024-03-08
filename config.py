@@ -5,17 +5,18 @@ from typing import Optional
 
 
 class MongoDBConfig(BaseModel):
-    host: str = "127.0.0.1"
+    host: Optional[str] = None
     port: Optional[int] = None
     username: Optional[str] = None
     password: Optional[str] = None
+    srvServiceName: Optional[str] = None
 
 
 class Config(BaseModel):
     token: str = ""
     data_dir: str = "data"
     managers: list[int] = []
-    mongodb: MongoDBConfig = MongoDBConfig(port=27017)
+    mongodb: MongoDBConfig = MongoDBConfig(host="127.0.0.1", port=27017)
 
 
 try:
