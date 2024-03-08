@@ -31,4 +31,6 @@ class item_system:
         target_data = { 'discord_id': discord_id }
         new_data = { '$set': { 'exp': target_user["exp"] + exp_get } }
         db.client.pythondb["item_data"].update_one(target_data,new_data)
-
+    def item_update(self,db,discord_id,new_item):
+        target_user = db.user_query(discord_id)
+        target_user["item"].append(new_item)

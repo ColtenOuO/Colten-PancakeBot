@@ -11,6 +11,7 @@ class Fishing:
         self.fish_list = fish_list
         f = open('fish.txt','r',encoding="utf-8")
         for i in f.readlines():
+            i.replace("\n",",")
             self.fish_list.append(i)
     def get_fish(self) -> str:
         return random.choice(self.fish_list)
@@ -38,6 +39,7 @@ class FishingCommands(commands.Cog):
         while(total_times != 0):
             print(i)
             fish_result = fishing_instance.get_fish()
+            fish_result = fish_result.replace("\n","")
             fish_list.append(fish_result)
             cm = round(random.uniform(0, 1000))
             dv = round(random.uniform(1, 20))
@@ -46,8 +48,8 @@ class FishingCommands(commands.Cog):
 
         
         if( db.Register_Query(ctx.author.id) == False ): db.Registered(ctx.author.id)
-        
-        await ctx.respond(f"你共釣起了 {len(fish_list)} 隻魚，他們分別是 {fish_list}，你總共獲得了 {total} 元")
+        symbol = ","
+        await ctx.respond(f"你共釣起了 {len(fish_list)} 隻魚，他們分別是 {symbol.join(fish_list)}，你總共獲得了 {total} 元")
         
         adding_money = db.update_user(total,0)
         adding_money.update_money(db,ctx.author.id)
@@ -63,13 +65,13 @@ class FishingCommands(commands.Cog):
         num = round(random.uniform(0,100))
         print(num)
         target_money = db.User_Query(member.id)["money"]
+        if( target_money == 1 ): target_money += 1
         steal_money = round(random.uniform(0,target_money/2))
-
         if( ctx.author.id == member.id ): await ctx.respond("你偷你自己幹嘛？？你結帳 +10")
         elif( target_money <= 0 ): await ctx.respond("你想偷的人已經負債或沒有錢了！不要再偷他了QQ")
         elif( db.User_Query(ctx.author.id)["money"] < 0 ): await ctx.respond("你現在都負債了還想偷錢R")
         elif( num >= 70 ):
-            await ctx.respond(f"Successful Stealing！你偷走了 {member.mention} {steal_money} 元")
+            await ctx.respond(f"Successful Stealing！你偷走了 {member} {steal_money} 元")
             money_change = db.update_user(-steal_money,0)
             money_change.update_money(db,member.id)
 
@@ -89,8 +91,8 @@ class FishingCommands(commands.Cog):
             adding_pancake = db.update_user(0,pancake_get)
             adding_pancake.update_pancake(db,member.id)
 
-            await ctx.respond(f"Unsuccessful Stealing，你嘗試偷取 {member.mention} 的錢失敗，損失了 {num} 元")
-            await ctx.send(f"【公告】由於 {member.mention} 遭到偷取財產失敗，因此獲得 {pancake_get} 個鬆餅")
+            await ctx.respond(f"Unsuccessful Stealing，你嘗試偷取 {member} 的錢失敗，損失了 {num} 元")
+            await ctx.send(f"【公告】由於 {member} 遭到偷取財產失敗，因此獲得 {pancake_get} 個鬆餅")
     
     @commands.slash_command(name="pancake",description="查詢你現在有幾個鬆餅")
     async def Pancake(self, ctx):
