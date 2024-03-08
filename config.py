@@ -6,7 +6,7 @@ from typing import Optional
 
 class MongoDBConfig(BaseModel):
     host: str = "127.0.0.1"
-    port: int = 27017
+    port: Optional[int] = 27017
     username: Optional[str] = None
     password: Optional[str] = None
 
