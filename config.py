@@ -15,7 +15,7 @@ class Config(BaseModel):
     token: str = ""
     data_dir: str = "data"
     managers: list[int] = []
-    mongodb: MongoDBConfig = MongoDBConfig()
+    mongodb: MongoDBConfig = MongoDBConfig(port=27017)
 
 
 try:
