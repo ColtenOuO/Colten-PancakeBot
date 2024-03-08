@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from item.item_db import item_system
 from db import database
+from bank.bank_db import bank_system
 import random
 import math
 
@@ -19,9 +20,12 @@ class Fishing:
 fishing_instance = Fishing()  # Renamed variable to avoid naming conflict
 db = database()
 item_db = item_system()
+bank_db = bank_system()
 
 for i in db.client.pythondb["discord_user_data"].find():
     if( item_db.user_query(i["discord_id"]) == None ): item_db.user_adding(i["discord_id"])
+for i in db.client.pythondb["discord_user_data"].find():
+    if( bank_db.user_query(i["discord_id"]) == None ): bank_db.user_adding(i["discord_id"])
 
 class FishingCommands(commands.Cog):
     def __init__(self, bot):
