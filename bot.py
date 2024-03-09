@@ -1,26 +1,34 @@
-from discord import Bot, Client
-from discord.ext import tasks, commands
+from discord import Bot
+from discord.ext import tasks
 from stock.stock_information import information
-
 from config import TOKEN
 
 bot = Bot()
 bot.load_extension("cogs.system")
 
+# Assuming TOKEN and other necessary imports are defined elsewhere in your code.
+
+# Global variable to keep track of the task's state
+my_task_started = False
 
 @bot.event
 async def on_ready():
-    print(f"{bot.user.display_name} has connected to discord.")
-    my_task.start()
+    global my_task_started
+    print(f"{bot.user.display_name} has connected to Discord.")
+    if not my_task_started:
+        my_task.start()
+        my_task_started = True  # Mark the task as started
 
-@tasks.loop(minutes=20)  # 設置任務每 20 分鐘運行一次 
+@tasks.loop(minutes=20)
 async def my_task():
-    channel = bot.get_channel(1214270825075580990)  # 替換成目標頻道的 ID
+    channel = bot.get_channel(1214270825075580990)  # Replace with your target channel ID
     await channel.send(embed=information())
 
 @my_task.before_loop
 async def before_my_task():
-    await bot.wait_until_ready()  # 等待機器人完全啟動
+    await bot.wait_until_ready()  # Wait for the bot to be fully ready
 
 async def run():
-    await bot.start(token=TOKEN)
+    await bot.start(TOKEN)
+
+# Assuming the run() function is called appropriately elsewhere in your code.

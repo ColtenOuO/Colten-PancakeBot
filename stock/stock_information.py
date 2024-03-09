@@ -21,7 +21,7 @@ def information():
 
     embed = discord.Embed(title="今日股市變動！！！",
                       description="投資一定有風險，基金投資有賺有賠，申購前應詳閱公開說明書")
-    embed.add_field(name="高睿股份有限公司",
+    embed.add_field(name="高睿屬實有料股份有限公司",
                     value=f"目前股市狀況 (1 股價格): {stock1_price+num1} 元 (價格變動: {additional}{num1})",
                     inline=False)
     embed.add_field(name="YEE 問題不大股份有限公司",
