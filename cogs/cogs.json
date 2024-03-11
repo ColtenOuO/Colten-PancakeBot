@@ -8,5 +8,10 @@
         "path": "cogs.bank",
         "description": "Bank",
         "load_on_start": true
+    },
+    "ItemSystem": {
+        "path": "cogs.item",
+        "description": "item",
+        "load_on_start": true
     }
 }
