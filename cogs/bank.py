@@ -53,9 +53,6 @@ class BankSystem(Cog):
         elif( USER_DEFAULT_DATA.money < input_money ): await ctx.respond("你的錢根本沒有這麼多，搞什麼")
         elif( input_money > remain ): await ctx.respond(f"你的銀行沒辦法存入這麼多錢，你最多只能再存 {remain} 元")
         else:
-            user_update = UserUpdate(money=USER_DEFAULT_DATA['money'] + input_money)
-            await self.crud_user.update_by_user_id(ctx.author.id, user_update)
-
             target_data = { 'discord_id': ctx.author.id }
             new_data = { '$set': { 'BANK_MONEY': USER_BANK_DATA['BANK_MONEY'] + input_money } }
             client.pythondb['bank_data'].update_one(target_data,new_data)
@@ -63,6 +60,28 @@ class BankSystem(Cog):
 
             # 扣錢
             user_update = UserUpdate(money = USER_DEFAULT_DATA.money - input_money)
+            await self.crud_user.update_by_user_id(ctx.author.id, user_update)
+        
+    @slash_command(name="take_money",description="提款")
+    async def take_money(self, ctx: ApplicationContext, input_money: int):
+        DEFAULT = Fishing(self.bot)
+        if( self.get_user(discord_id=ctx.author.id) == None ): self.new_user(ctx.author.id)
+        USER_BANK_DATA = self.get_user(discord_id=ctx.author.id)
+        USER_DEFAULT_DATA = await DEFAULT.get_user(ctx.author.id)
+
+        
+        if( USER_BANK_DATA['BANK_MONEY'] < input_money ): await ctx.respond("你銀行裡的錢根本沒有這麼多，搞什麼")
+        else:
+            user_update = UserUpdate(money=USER_DEFAULT_DATA['money'] + input_money)
+            await self.crud_user.update_by_user_id(ctx.author.id, user_update)
+
+            await ctx.respond(f"提款成功！你的銀行內目前還有 {USER_BANK_DATA['BANK_MONEY'] - input_money} 元")
+
+            target_data = { 'discord_id': ctx.author.id }
+            new_data = { '$set': { 'BANK_MONEY': USER_BANK_DATA['BANK_MONEY'] - input_money } }
+            client.pythondb['bank_data'].update_one(target_data,new_data)
+            
+            user_update = UserUpdate(money = USER_DEFAULT_DATA.money + input_money)
             self.crud_user.update_by_user_id(ctx.author.id, user_update)
 
     
