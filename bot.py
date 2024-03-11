@@ -11,6 +11,11 @@ bot.load_extension("cogs.system")
 # Global variable to keep track of the task's state
 my_task_started = False
 
+@tasks.loop(minutes=20)
+async def my_task():
+    channel = bot.get_channel(1214270825075580990)  # Replace with your target channel ID
+    await channel.send(embed=information())
+
 @bot.event
 async def on_ready():
     global my_task_started
@@ -18,15 +23,6 @@ async def on_ready():
     if not my_task_started:
         my_task.start()
         my_task_started = True  # Mark the task as started
-
-@tasks.loop(minutes=20)
-async def my_task():
-    channel = bot.get_channel(1214270825075580990)  # Replace with your target channel ID
-    await channel.send(embed=information())
-
-@my_task.before_loop
-async def before_my_task():
-    await bot.wait_until_ready()  # Wait for the bot to be fully ready
 
 async def run():
     await bot.start(TOKEN)
