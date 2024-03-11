@@ -1,8 +1,12 @@
-from discord import ApplicationContext, Bot, Member
+from datetime import datetime
+from discord import ApplicationContext, Bot, Member, Embed
 from discord.ext.commands import Cog, slash_command
 from pymongo import MongoClient
 from math import log10
 from random import choice, randint, random, uniform
+from stock.stock import StockSystem
+from stock.stock1 import Stock1
+import discord
 
 from crud.user import CRUDUser
 from schemas import User, UserUpdate
@@ -18,7 +22,9 @@ with open('token.json') as f:
 class BankSystem(Cog):
     bot: Bot
     crud_user: CRUDUser = CRUDUser()
-    
+    stock_system: StockSystem = StockSystem()
+    stock1: Stock1 = Stock1()
+
     def __init__(self, bot):
         self.bot = bot
     def get_user(self,discord_id: int):
@@ -61,6 +67,7 @@ class BankSystem(Cog):
             # 扣錢
             user_update = UserUpdate(money = USER_DEFAULT_DATA.money - input_money)
             await self.crud_user.update_by_user_id(ctx.author.id, user_update)
+<<<<<<< HEAD
         
     @slash_command(name="take_money",description="提款")
     async def take_money(self, ctx: ApplicationContext, input_money: int):
@@ -83,6 +90,13 @@ class BankSystem(Cog):
             
             user_update = UserUpdate(money = USER_DEFAULT_DATA.money + input_money)
             self.crud_user.update_by_user_id(ctx.author.id, user_update)
+=======
+
+    @slash_command(name="stock_query",description="查詢目前股市")
+    async def stock_query(self, ctx: ApplicationContext):
+        await ctx.respond("查詢中...")
+        await ctx.send(embed=self.stock1.get_information())
+>>>>>>> dc269bd76293ac5f5edb5dd883c9157af2d5e528
 
     
 

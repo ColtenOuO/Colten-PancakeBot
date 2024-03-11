@@ -163,7 +163,7 @@ class Fishing(Cog):
 
             # Response
             await ctx.respond("\n".join([
-                f"Successful Stealing！你偷走了 {target.mention} {steal_money} 元",
+                f"Successful Stealing！你偷走了 {target} {steal_money} 元",
                 f"由於 {ctx.author.mention} 成功偷取別人的財產，獲得了 {add_experience} 點經驗值"
             ]))
         else:
@@ -186,8 +186,8 @@ class Fishing(Cog):
 
             # Response
             await ctx.respond("\n".join([
-                f"Unsuccessful Stealing，你嘗試偷取 {target.mention} 的錢失敗，損失了 {loss_money} 元",
-                f"【公告】由於 {target.mention} 遭到偷取財產失敗，因此獲得 {add_pancake} 個鬆餅"
+                f"Unsuccessful Stealing，你嘗試偷取 {target} 的錢失敗，損失了 {loss_money} 元",
+                f"【公告】由於 {target} 遭到偷取財產失敗，因此獲得 {add_pancake} 個鬆餅"
             ]))
 
     @slash_command(
