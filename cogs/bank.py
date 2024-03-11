@@ -67,7 +67,6 @@ class BankSystem(Cog):
             # 扣錢
             user_update = UserUpdate(money = USER_DEFAULT_DATA.money - input_money)
             await self.crud_user.update_by_user_id(ctx.author.id, user_update)
-<<<<<<< HEAD
         
     @slash_command(name="take_money",description="提款")
     async def take_money(self, ctx: ApplicationContext, input_money: int):
@@ -90,13 +89,11 @@ class BankSystem(Cog):
             
             user_update = UserUpdate(money = USER_DEFAULT_DATA.money + input_money)
             self.crud_user.update_by_user_id(ctx.author.id, user_update)
-=======
 
     @slash_command(name="stock_query",description="查詢目前股市")
     async def stock_query(self, ctx: ApplicationContext):
         await ctx.respond("查詢中...")
         await ctx.send(embed=self.stock1.get_information())
->>>>>>> dc269bd76293ac5f5edb5dd883c9157af2d5e528
 
     
 
