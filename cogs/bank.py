@@ -14,9 +14,6 @@ class BankSystem(GroupCog, UserCog):
         description="Bank operation"
     )
 
-    def __init__(self, bot):
-        self.bot = bot
-
     async def get_bank(self, user_id: int) -> Bank:
         bank = await self.crud_bank.get_by_user_id(user_id)
         if bank is None:

@@ -13,7 +13,8 @@ class FishingSystem(UserCog):
     bot: Bot
     fish_list: list[str] = []
 
-    def __init__(self, bot):
+    def __init__(self, bot: Bot):
+        super().__init__()
         self.bot = bot
 
         # Read fish file
