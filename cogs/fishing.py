@@ -4,14 +4,14 @@ from discord.ext.commands import Cog, slash_command
 from math import log10
 from random import choice, randint, random, uniform
 
-from crud.user import CRUDUser
-from schemas import User, UserUpdate
+from schemas import UserUpdate
+
+from .base import UserCog
 
 
-class Fishing(Cog):
+class FishingSystem(UserCog):
     bot: Bot
     fish_list: list[str] = []
-    crud_user: CRUDUser = CRUDUser()
 
     def __init__(self, bot):
         self.bot = bot
@@ -26,12 +26,6 @@ class Fishing(Cog):
     @property
     def get_fish(self) -> str:
         return choice(self.fish_list)
-
-    async def get_user(self, user_id: int) -> User:
-        user = await self.crud_user.get_by_user_id(user_id)
-        if user is None:
-            user = await self.crud_user.create(User(user_id=user_id))
-        return user
 
     @slash_command(
         name="money",
@@ -234,4 +228,4 @@ class Fishing(Cog):
 
 
 def setup(bot: Bot):
-    bot.add_cog(Fishing(bot=bot))
+    bot.add_cog(FishingSystem(bot=bot))
