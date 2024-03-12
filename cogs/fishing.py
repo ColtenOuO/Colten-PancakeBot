@@ -126,8 +126,8 @@ class FishingSystem(UserCog):
         await ctx.respond(f"你共釣起了 {fish_count} 隻魚，他們分別是{'、'.join(fish_result)}，共獲得了 {receive_money} 元")
 
         if( sakinu_ruigao_9487 == True ): 
-            await ctx.send(f"#【公告】恭喜 {ctx.author.mention} 釣到了高睿，將獎池裡面的錢全部拿走！")
             all_money = (await self.crud_user.get_by_user_id(1212108140435210320) ).money
+            await ctx.send(f"#【公告】恭喜 {ctx.author.mention} 釣到了高睿，將獎池裡面的 {all_money} 元全部拿走！")
             target_user_update = UserUpdate(
                 money= 0
             )
