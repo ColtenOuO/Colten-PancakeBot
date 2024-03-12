@@ -9,6 +9,11 @@
         "description": "Bank",
         "load_on_start": true
     },
+    "StockSystem": {
+        "path": "cogs.stock",
+        "description": "Stock",
+        "load_on_start": true
+    },
     "ItemSystem": {
         "path": "cogs.item",
         "description": "item",

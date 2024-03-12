@@ -45,15 +45,18 @@ class CRUDBase(Generic[SchemaType, SchemaUpdateType]):
     async def get_many(
         self,
         query: Union[SchemaUpdateType, dict],
-        limit: int = 10
+        offset: int = 0,
+        limit: Optional[int] = 10
     ) -> list[SchemaType]:
         cursor = self.collection.find(
             query if type(query) is dict
             else query.model_dump(exclude_unset=True),
             {"_id": 0}
-        )
+        ).skip(offset)
 
-        results = await cursor.to_list(max(1, limit))
+        if limit:
+            cursor = cursor.limit(limit)
+        results = await cursor.to_list(None)
         return list(map(lambda result: SchemaType(**result), results))
 
     async def update(
@@ -64,8 +67,8 @@ class CRUDBase(Generic[SchemaType, SchemaUpdateType]):
         await self.collection.find_one_and_update(
             query if type(query) is dict
             else query.model_dump(exclude_unset=True),
-            {"$set" : update if type(update) is dict
-            else update.model_dump(exclude_unset=True)}
+            {"$set": update if type(update) is dict
+             else update.model_dump(exclude_unset=True)}
         )
 
         return await self.get(query)

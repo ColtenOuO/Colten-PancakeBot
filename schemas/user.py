@@ -8,6 +8,7 @@ class User(BaseModel):
     money: int = 0
     pancake: int = 0
     experience: int = 0
+    stock: dict[str, int] = {}
 
 
 class UserUpdate(BaseModel):
@@ -15,3 +16,4 @@ class UserUpdate(BaseModel):
     money: Optional[int] = None
     pancake: Optional[int] = None
     experience: Optional[int] = None
+    stock: Optional[dict[str, int]] = None

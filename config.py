@@ -16,6 +16,7 @@ class Config(BaseModel):
     token: str = ""
     data_dir: str = "data"
     managers: list[int] = []
+    main_channel: int = 0
     mongodb: MongoDBConfig = MongoDBConfig(host="127.0.0.1", port=27017)
 
 
@@ -32,5 +33,6 @@ except:
 TOKEN = config.token
 DATA_DIR = config.data_dir
 MANAGERS = config.managers
+MAIN_CHANNEL = config.main_channel
 
 MONGO_DB = config.mongodb
