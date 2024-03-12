@@ -2,6 +2,7 @@ from discord import ApplicationContext, Bot, Member
 from discord.ext.commands import Cog, slash_command
 
 from math import log10
+from typing import Optional
 from random import choice, randint, random, uniform
 
 from schemas import UserUpdate
@@ -13,7 +14,8 @@ class FishingSystem(UserCog):
     bot: Bot
     fish_list: list[str] = []
 
-    def __init__(self, bot):
+    def __init__(self, bot: Bot):
+        super().__init__()
         self.bot = bot
 
         # Read fish file
@@ -33,10 +35,11 @@ class FishingSystem(UserCog):
     )
     async def money(
         self,
-        ctx: ApplicationContext
+        ctx: ApplicationContext,
+        target: Optional[Member] = None
     ):
         # Get user data
-        user = await self.get_user(ctx.author.id)
+        user = await self.get_user(ctx.author.id if target is None else target.id)
 
         # Response
         await ctx.respond("你目前有 0 元，哈哈" if user.money == 0 else f"你目前有 {user.money} 元！")
