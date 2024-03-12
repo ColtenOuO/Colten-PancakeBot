@@ -18,5 +18,10 @@
         "path": "cogs.item",
         "description": "item",
         "load_on_start": true
+    },
+    "MiningSystem": {
+        "path": "cogs.mining",
+        "description": "mining",
+        "load_on_start": true
     }
 }
