@@ -12,12 +12,12 @@ class MiningData:
             "last_time": user_time
         }
         client.pythondb['mining_data'].insert_one(new_data)
-    def query_user_time(self,discord_id: int):
+    def query_user(self,discord_id: int):
         for USER in client.pythondb['mining_data'].find():
-            if( USER['discord_id'] == discord_id ): return USER['time']
+            if( USER['discord_id'] == discord_id ): return USER
         return None
     def update_one(self,discord_id: int,user_time):
         target_data = { "discord_id": discord_id }
-        new_data = { '$set': { 'time': user_time } }
+        new_data = { '$set': { 'last_time': user_time } }
         client.pythondb['mining_data'].update_one(target_data,new_data)
     

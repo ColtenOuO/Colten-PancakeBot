@@ -32,8 +32,10 @@ class MiningSystem(GroupCog, UserCog):
     )
     @group.command(name="start",description="開始挖礦 (20 分鐘後可以回來收集結果)")
     async def mining(self,ctx):
-        if( self.crud_mining.query_user_time(ctx.author.id) != None ): await ctx.respond("你已經在挖礦了啦，搞什麼")
+        USER_DATA = self.crud_mining.query_user(ctx.author.id)
+        if( USER_DATA != None and USER_DATA['last_time'] != None  ): await ctx.respond("你已經在挖礦了啦，搞什麼")
         else:
+            if( USER_DATA == None ): self.crud_mining.insert_new_one(ctx.author.id,None)
             self.crud_mining.update_one(discord_id=ctx.author.id,user_time=time.time())
             await ctx.respond("開始挖礦！20 分鐘後可以回來領取獎勵 ><")
         

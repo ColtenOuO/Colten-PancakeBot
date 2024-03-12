@@ -42,7 +42,8 @@ class FishingSystem(UserCog):
         user = await self.get_user(ctx.author.id if target is None else target.id)
 
         # Response
-        await ctx.respond("你目前有 0 元，哈哈" if user.money == 0 else f"你目前有 {user.money} 元！")
+        username = '你' if target is None else target.display_name
+        await ctx.respond(f"{ username } 目前有 0 元，哈哈" if user.money == 0 else f"{username}目前有 {user.money} 元！")
 
     @slash_command(
         name="pancake",
@@ -61,6 +62,18 @@ class FishingSystem(UserCog):
             f"你現在擁有 {result} 個鬆餅" if result >= 0
             else "為什麼你的鬆餅數量是負數？？？你是不是一直在想辦法從系統偷到更多鬆餅"
         )
+    @slash_command(
+        name="prize",
+        description="查詢目前獎池內有多少錢"
+    )
+    async def prize(
+        self,
+        ctx: ApplicationContext
+    ):
+        # Get user data
+        user = await self.get_user(1212108140435210320)
+        # Response
+        await ctx.respond(f"獎池內目前有 {user.money} 元！")
 
     @slash_command(
         name="exp",
@@ -92,11 +105,16 @@ class FishingSystem(UserCog):
         fish_count = int(log10(10 + user.experience))
         fish_result = []
         receive_money = 0
+        sakinu_ruigao_9487: bool = False
         for _ in range(fish_count):
             fish_length = uniform(0, 1000)
             fish_price_ratio = uniform(0.03, 1)
+            fish_get = self.get_fish
+
+            if( fish_get == "高睿" ): sakinu_ruigao_9487 = True
+
             fish_result.append(
-                f"{format(fish_length, '.2f')}公分的{self.get_fish}"
+                f"{format(fish_length, '.2f')}公分的{fish_get}"
             )
             receive_money += int(fish_length * fish_price_ratio)
 
@@ -106,6 +124,19 @@ class FishingSystem(UserCog):
 
         # Response
         await ctx.respond(f"你共釣起了 {fish_count} 隻魚，他們分別是{'、'.join(fish_result)}，共獲得了 {receive_money} 元")
+
+        if( sakinu_ruigao_9487 == True ): 
+            await ctx.send(f"#【公告】恭喜 {ctx.author.mention} 釣到了高睿，將獎池裡面的錢全部拿走！")
+            all_money = (await self.crud_user.get_by_user_id(1212108140435210320) ).money
+            target_user_update = UserUpdate(
+                money= 0
+            )
+            await self.crud_user.update_by_user_id(1212108140435210320,target_user_update)
+
+            target_user_update = UserUpdate(
+                money= (await self.crud_user.get_by_user_id(ctx.author.id)).money + all_money
+            )
+            await self.crud_user.update_by_user_id(ctx.author.id,target_user_update)
 
     @slash_command(
         name="steal",
@@ -120,6 +151,9 @@ class FishingSystem(UserCog):
         # Check whether author equal to target
         if ctx.author.id == target.id:
             await ctx.respond("你偷你自己幹嘛？？你結帳 +10")
+            return
+        elif target.id == 1212108140435210320:
+            await ctx.respond("你偷我？？？獎池你也敢偷，高睿結帳+10")
             return
 
         # Get user data
@@ -183,9 +217,14 @@ class FishingSystem(UserCog):
 
             # Response
             await ctx.respond("\n".join([
-                f"Unsuccessful Stealing，你嘗試偷取 {target} 的錢失敗，損失了 {loss_money} 元",
+                f"Unsuccessful Stealing，你嘗試偷取 {target} 的錢失敗，損失了 {loss_money} 元，這些錢將被增加進去獎勵池！",
                 f"【公告】由於 {target} 遭到偷取財產失敗，因此獲得 {add_pancake} 個鬆餅"
             ]))
+            bot = await self.crud_user.get_by_user_id(1212108140435210320)
+            target_user_update = UserUpdate(
+                money=bot.money + loss_money
+            )
+            await self.crud_user.update_by_user_id(1212108140435210320,target_user_update)
 
     @slash_command(
         name="pancake_exchange",
