@@ -1,7 +1,7 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from config import MONGO_DB
+from config import MONGO_DB_URL, MONGO_DB_NAME
 
-client = AsyncIOMotorClient(**MONGO_DB.model_dump()) if MONGO_DB.srvServiceName is None else AsyncIOMotorClient(MONGO_DB.srvServiceName)
+client = AsyncIOMotorClient(MONGO_DB_URL)
 
-DB = client["pythondb"]
+DB = client[MONGO_DB_NAME]

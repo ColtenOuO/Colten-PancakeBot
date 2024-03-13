@@ -5,11 +5,8 @@ from typing import Optional
 
 
 class MongoDBConfig(BaseModel):
-    host: Optional[str] = None
-    port: Optional[int] = None
-    username: Optional[str] = None
-    password: Optional[str] = None
-    srvServiceName: Optional[str] = None
+    url: str = ""
+    db_name: str = "colten-pancake"
 
 
 class Config(BaseModel):
@@ -17,7 +14,7 @@ class Config(BaseModel):
     data_dir: str = "data"
     managers: list[int] = []
     main_channel: int = 0
-    mongodb: MongoDBConfig = MongoDBConfig(host="127.0.0.1", port=27017)
+    mongodb: MongoDBConfig = MongoDBConfig()
 
 
 try:
@@ -35,4 +32,5 @@ DATA_DIR = config.data_dir
 MANAGERS = config.managers
 MAIN_CHANNEL = config.main_channel
 
-MONGO_DB = config.mongodb
+MONGO_DB_URL = config.mongodb.url
+MONGO_DB_NAME = config.mongodb.db_name

@@ -9,6 +9,7 @@ bot = Bot()
 
 init = False
 
+
 async def broadcast_stock():
     while True:
         await bot.wait_until_ready()
@@ -23,7 +24,6 @@ async def broadcast_stock():
 async def on_ready():
     global init
     print(f"{bot.user.display_name} has connected to Discord.")
-
 
     if not init:
         init = True
