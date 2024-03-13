@@ -9,6 +9,7 @@ class User(BaseModel):
     pancake: int = 0
     experience: int = 0
     stock: dict[str, int] = {}
+    mining_time: int = 0
 
 
 class UserUpdate(BaseModel):
@@ -17,3 +18,4 @@ class UserUpdate(BaseModel):
     pancake: Optional[int] = None
     experience: Optional[int] = None
     stock: Optional[dict[str, int]] = None
+    mining_time: Optional[int] = None

@@ -2,7 +2,7 @@ from asyncio import run
 
 from bot import run as bot_run
 
-DEBUG = True
+DEBUG = False
 
 
 async def main():

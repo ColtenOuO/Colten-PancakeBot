@@ -8,8 +8,8 @@ from .base import GroupCog, UserCog
 
 class BankSystem(GroupCog, UserCog):
     bot: Bot
-    crud_bank: CRUDBank = CRUDBank()
-    group: SlashCommandGroup = SlashCommandGroup(
+    crud_bank = CRUDBank()
+    group = SlashCommandGroup(
         name="bank",
         description="Bank operation"
     )

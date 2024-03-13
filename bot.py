@@ -6,7 +6,6 @@ from config import MAIN_CHANNEL, TOKEN
 from stock.update import update_stocks
 
 bot = Bot()
-bot.load_extension("cogs.system")
 
 init = False
 
@@ -28,9 +27,11 @@ async def on_ready():
 
     if not init:
         init = True
-        loop = get_event_loop()
+        loop = bot.loop
         loop.create_task(broadcast_stock())
 
 
 async def run():
+    bot.loop = get_event_loop()
+    bot.load_extension("cogs.system")
     await bot.start(TOKEN)

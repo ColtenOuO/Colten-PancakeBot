@@ -52,7 +52,7 @@ class CRUDBase(Generic[SchemaType, SchemaUpdateType]):
             query if type(query) is dict
             else query.model_dump(exclude_unset=True),
             {"_id": 0}
-        ).skip(offset)
+        ).skip(offset or 0)
 
         if limit:
             cursor = cursor.limit(limit)

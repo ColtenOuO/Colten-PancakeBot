@@ -16,7 +16,7 @@ class CRUDStock(CRUDBase[Stock, StockUpdate]):
     ) -> list[str]:
         cursor = self.collection.find(
             {}, {"_id": 0, "code": 1}
-        ).skip(offset)
+        ).skip(offset or 0)
 
         if limit:
             cursor = cursor.limit(limit)

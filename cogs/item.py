@@ -7,7 +7,7 @@ from .base import GroupCog, UserCog
 
 class ItemSystem(GroupCog, UserCog):
     bot: Bot
-    group: SlashCommandGroup = SlashCommandGroup(
+    group = SlashCommandGroup(
         name="item",
         description="Item"
     )

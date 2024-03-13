@@ -8,8 +8,7 @@ from discord import (
     SlashCommandGroup
 )
 
-from asyncio import run
-from typing import Annotated
+from asyncio import Task
 
 from crud.stock import CRUDStock
 from schemas import Stock, StockUpdate, UserUpdate
@@ -19,18 +18,17 @@ from .base import GroupCog, UserCog
 
 class StockSystem(GroupCog, UserCog):
     bot: Bot
-    crud_stock: CRUDStock = CRUDStock()
-    group: SlashCommandGroup = SlashCommandGroup(
+    crud_stock = CRUDStock()
+    group = SlashCommandGroup(
         name="stock",
         description="Stock"
     )
 
-    stock_code_list: list[str] = []
-
     def __init__(self, bot: Bot):
         self.bot = bot
-        # async def func():
-        #     self.stock_code_list = await self.crud_stock.get_all_code()
+    
+    async def get_stock_code_list(self, *args) -> list[str]:
+        return await self.crud_stock.get_all_code()
 
     @group.command(
         name="query",
@@ -39,9 +37,9 @@ class StockSystem(GroupCog, UserCog):
             Option(
                 str,
                 name="stock_code",
-                required=True,
                 description="股票代號",
-                autocomplete=stock_code_list,
+                required=True,
+                autocomplete=get_stock_code_list,
             )
         ]
     )
