@@ -28,7 +28,7 @@ async def on_ready():
     if not init:
         init = True
         loop = bot.loop
-        # loop.create_task(broadcast_stock())
+        loop.create_task(broadcast_stock())
 
 
 async def run():
