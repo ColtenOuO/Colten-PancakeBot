@@ -159,7 +159,7 @@ class FishingSystem(UserCog):
             await ctx.respond("你偷你自己幹嘛？？你結帳 +10")
             return
         elif target.id == 1212108140435210320:
-            await ctx.respond("你偷我？？？獎池你也敢偷，高睿結帳+10")
+            await ctx.respond("你偷我？？？獎池你也敢偷，你結帳+10")
             return
 
         # Get user data

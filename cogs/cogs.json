@@ -23,5 +23,10 @@
         "path": "cogs.mining",
         "description": "mining",
         "load_on_start": true
+    },
+    "WorkSystem": {
+        "path": "cogs.work",
+        "description": "work",
+        "load_on_start": true
     }
 }

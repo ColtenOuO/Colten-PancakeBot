@@ -1,6 +1,7 @@
 from discord import ApplicationContext, Bot, SlashCommandGroup
 
 from crud.bank import CRUDBank
+from crud.user import CRUDUser
 from schemas import Bank, BankUpdate, UserUpdate
 
 from .base import GroupCog, UserCog
@@ -9,6 +10,7 @@ from .base import GroupCog, UserCog
 class BankSystem(GroupCog, UserCog):
     bot: Bot
     crud_bank = CRUDBank()
+    crud_user = CRUDUser()
     group = SlashCommandGroup(
         name="bank",
         description="Bank operation"
@@ -19,6 +21,22 @@ class BankSystem(GroupCog, UserCog):
         if bank is None:
             bank = await self.crud_bank.create(Bank(user_id=user_id))
         return bank
+
+    @group.command(
+        name="upgrade",
+        description="花費 50 個鬆餅，讓你的銀行可以儲存更多的錢，每升級一次可以增加 1 萬元的額度"
+    )
+    async def upgrade(self,ctx):
+        bank = await self.get_bank(ctx.author.id)
+        pancake = ( await self.crud_user.get_by_user_id(ctx.author.id) ).pancake
+        if( pancake < 50 ): await ctx.send('你的鬆餅數量根本不足 50 個，搞什麼')
+        else:
+            update_bank = BankUpdate(max_money=bank.max_money+100000)
+            await self.crud_bank.update_by_user_id(ctx.author.id,update_bank)
+            await ctx.send(f'升級成功！你的銀行存錢上限來到了 {bank.max_money+100000}')
+            update_pancake = UserUpdate(pancake=pancake-50)
+            await self.crud_user.update_by_user_id(ctx.author.id,update_pancake)
+
 
     @group.command(
         name="query",
