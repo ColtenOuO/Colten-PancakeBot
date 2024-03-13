@@ -1,45 +1,75 @@
 from discord import (
     ApplicationContext,
     Bot,
-    Embed,
-    EmbedAuthor,
-    EmbedFooter,
-    Option,
     SlashCommandGroup
 )
 
-from asyncio import run
-from typing import Annotated
+from datetime import datetime
+from math import log
 
-from crud.stock import CRUDStock
-from schemas import Stock, StockUpdate, UserUpdate
+from schemas import UserUpdate
 
 from .base import GroupCog, UserCog
-
-import time
-from crud.mining import MiningData
-
 
 
 class MiningSystem(GroupCog, UserCog):
     bot: Bot
-    crud_mining: MiningData = MiningData()
-    def __init__(self,bot) -> None:
-        self.bot = bot
-    group: SlashCommandGroup = SlashCommandGroup(
+    group = SlashCommandGroup(
         name="mining",
         description="Mining"
     )
-    @group.command(name="start",description="開始挖礦 (20 分鐘後可以回來收集結果)")
-    async def mining(self,ctx):
-        USER_DATA = self.crud_mining.query_user(ctx.author.id)
-        if( USER_DATA != None and USER_DATA['last_time'] != None  ): await ctx.respond("你已經在挖礦了啦，搞什麼")
-        else:
-            if( USER_DATA == None ): self.crud_mining.insert_new_one(ctx.author.id,None)
-            self.crud_mining.update_one(discord_id=ctx.author.id,user_time=time.time())
-            await ctx.respond("開始挖礦！20 分鐘後可以回來領取獎勵 ><")
+
+    def __init__(self, bot) -> None:
+        self.bot = bot
+
+    @group.command(
+        name="start",
+        description="開始挖礦 (20 分鐘後可以回來收集結果)"
+    )
+    async def start_mining(self, ctx: ApplicationContext):
+        user_id = ctx.author.id
+        user = await self.get_user(user_id)
+
+        if user.mining_time != 0:
+            await ctx.respond("你已經在挖礦了啦，搞什麼")
+            return
+
+        user_update = UserUpdate(
+            mining_time=int(datetime.utcnow().timestamp())
+        )
+        await self.crud_user.update_by_user_id(user_id, user_update)
+
+        await ctx.respond("開始挖礦！ 20 分鐘後可以回來領取獎勵 ><")
+
+    @group.command(
+        name="stop",
+        description="停止挖礦"
+    )
+    async def stop_mining(self, ctx: ApplicationContext):
+        user_id = ctx.author.id
+        user = await self.get_user(user_id)
+
+        if (user.mining_time == 0):
+            await ctx.respond("你根本沒有在挖礦，搞什麼")
+            return
         
+        user_update = UserUpdate(
+            mining_time=0
+        )
+        await self.crud_user.update_by_user_id(user_id, user_update)
+
+        base_money = 1000
+
+        delta_time = (datetime.utcnow().timestamp() - user.mining_time) / 1200
+        get_money = int(log(delta_time) * base_money)
+
+        if get_money < 0:
+            await ctx.respond(f"根本就還沒到20分鐘，搞什麼，你罰 {get_money} 元")
+            return
+        
+        get_money += base_money
+        await ctx.respond(f"你挖了 {int(delta_time * 20)} 分鐘 獲得 {get_money} 元")
+
+
 def setup(bot: Bot):
     bot.add_cog(MiningSystem(bot=bot))
-    
-    
