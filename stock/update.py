@@ -22,7 +22,10 @@ async def update_stocks() -> list[Embed]:
 
         async def modify(stock_code: str) -> EmbedField:
             stock = await crud_stock.get_by_code(stock_code)
-            new_delta = stock.delta + randint(-100, 100)
+
+            limit = int(max(abs(stock.delta / 3), 100))
+
+            new_delta = stock.delta + randint(-limit, limit)
             new_price = stock.price + new_delta
 
             stock_update = StockUpdate(
