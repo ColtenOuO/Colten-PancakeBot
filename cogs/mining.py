@@ -52,7 +52,7 @@ class MiningSystem(GroupCog, UserCog):
         if (user.mining_time == 0):
             await ctx.respond("你根本沒有在挖礦，搞什麼")
             return
-        
+
         user_update = UserUpdate(
             mining_time=0
         )
@@ -66,7 +66,7 @@ class MiningSystem(GroupCog, UserCog):
         if get_money < 0:
             await ctx.respond(f"根本就還沒到20分鐘，搞什麼，你罰 {get_money} 元")
             return
-        
+
         get_money += base_money
         await ctx.respond(f"你挖了 {int(delta_time * 20)} 分鐘 獲得 {get_money} 元")
 
