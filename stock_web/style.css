@@ -1,0 +1,85 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f4f4f4;
+  padding-top: 80px; /* 为固定头部留出空间 */
+  min-height: 100vh;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #333;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background-color: #f4f4f4;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 10; /* 确保头部在内容上方 */
+}
+
+.time {
+  margin-right: auto;
+  margin-left: 20px;
+}
+
+button {
+  display: block;
+  width: 80%;
+  padding: 15px;
+  margin: 10px auto;
+  border: none;
+  border-radius: 10px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.stocks-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* 使容器在行中均匀分布 */
+  max-width: 1200px;
+  margin: 0 auto; /* 居中容器 */
+}
+
+.stock-container {
+  margin: 10px;
+  flex: 0 0 calc(33.333% - 20px); /* 每个容器宽度为三分之一减去margin */
+  box-sizing: border-box; /* 边框和内边距包含在宽度内 */
+  transition: transform 0.3s ease;
+}
+
+.stock-container:hover {
+  transform: translateY(-5px); /* 鼠标悬停时上浮效果 */
+}
+
+.current-price, .stock {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin-bottom: 10px; /* 在股票信息和当前价格之间添加间距 */
+}
+
+.current-price {
+  background-color: #f9f9f9; /* 区分当前价格和股票信息的背景色 */
+}
+
+/* 响应式布局：对于小屏幕，每行显示一个容器 */
+@media (max-width: 768px) {
+  .stock-container {
+    flex: 0 0 100%; /* 小屏幕上股票容器宽度调整为100% */
+    margin: 10px 0;
+  }
+}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>買入股票</title>
+</head>
+<body>
+<h2>買入股票</h2>
+<form action="/submit-buy-order" method="post"> <!-- 注意: 根據你的後端設置，action可能需要更改 -->
+    <label for="stockAmount">股數:</label>
+    <input type="number" id="stockAmount" name="stockAmount" min="1" required>
+    <label for="stockPrice">開價格:</label>
+    <input type="number" id="stockPrice" name="stockPrice" step="0.01" required>
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>
