@@ -8,6 +8,7 @@ from random import choice, randint, random, uniform
 from schemas import UserUpdate
 
 from .base import UserCog
+import random
 
 
 class FishingSystem(UserCog):
