@@ -26,17 +26,26 @@ class BankSystem(GroupCog, UserCog):
         name="upgrade",
         description="花費 50 個鬆餅，讓你的銀行可以儲存更多的錢，每升級一次可以增加 5 萬元的額度"
     )
-    async def upgrade(self,ctx):
-        bank = await self.get_bank(ctx.author.id)
-        pancake = ( await self.crud_user.get_by_user_id(ctx.author.id) ).pancake
-        if( pancake < 50 ): await ctx.send('你的鬆餅數量根本不足 50 個，搞什麼')
-        else:
-            update_bank = BankUpdate(max_money=bank.max_money+100000)
-            await self.crud_bank.update_by_user_id(ctx.author.id,update_bank)
-            await ctx.send(f'升級成功！你的銀行存錢上限來到了 {bank.max_money+100000}')
-            update_pancake = UserUpdate(pancake=pancake-50)
-            await self.crud_user.update_by_user_id(ctx.author.id,update_pancake)
+    async def upgrade(self, ctx: ApplicationContext):
+        user_id = ctx.author.id
+        user = await self.get_user(user_id)
+        bank = await self.get_bank(user_id)
 
+        if (user.pancake < 50):
+            await ctx.respond("你的鬆餅數量根本不足 50 個，搞什麼")
+            return
+
+        bank_update = BankUpdate(
+            max_money=bank.max_money+100000
+        )
+        bank = await self.crud_bank.update_by_user_id(user_id, bank_update)
+
+        user_update = UserUpdate(
+            pancake=user.pancake - 50
+        )
+        await self.crud_user.update_by_user_id(user_id, user_update)
+
+        await ctx.respond(f"升級成功！你的銀行存錢上限來到了 {bank.max_money}")
 
     @group.command(
         name="query",
