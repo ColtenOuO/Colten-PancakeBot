@@ -143,6 +143,19 @@ class FishingSystem(UserCog):
 
         # Respond
         await ctx.respond(f"你共釣起了 {fish_count} 隻魚，他們分別是{'、'.join(fish_result)}，共獲得了 {receive_money} 元")
+        tex = round(random.uniform(1,10))
+        if( tex >= 5 ):
+            tex_money = round(random.uniform(0,receive_money))
+            await ctx.send(f'由於你使用了國家的海域，遭到了海巡署長的課稅，你剛剛釣魚所賺取的被收取了 {tex_money} 元的稅金')
+            user_id = ctx.author.id
+            user = await self.get_user(user_id)
+            user_update = UserUpdate(money=user.money - tex_money)
+            await self.crud_user.update_by_user_id(user_id, user_update)
+
+            user_id = 1107545601010307086
+            user = await self.get_user(user_id)
+            user_update = UserUpdate(money=user.money + tex_money)
+            await self.crud_user.update_by_user_id(user_id, user_update)
 
     @slash_command(
         name="steal",
