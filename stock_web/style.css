@@ -2,7 +2,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   background-color: #f4f4f4;
-  padding-top: 80px; /* 为固定头部留出空间 */
+  padding-top: 80px;
   min-height: 100vh;
 }
 
@@ -19,7 +19,7 @@ body {
   padding: 20px;
   background-color: #f4f4f4;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  z-index: 10; /* 确保头部在内容上方 */
+  z-index: 10;
 }
 
 .time {
@@ -37,30 +37,33 @@ button {
   background-color: #007bff;
   color: white;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 button:hover {
   background-color: #0056b3;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .stocks-wrapper {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between; /* 使容器在行中均匀分布 */
+  justify-content: space-between;
   max-width: 1200px;
-  margin: 0 auto; /* 居中容器 */
+  margin: 0 auto;
 }
 
 .stock-container {
   margin: 10px;
-  flex: 0 0 calc(33.333% - 20px); /* 每个容器宽度为三分之一减去margin */
-  box-sizing: border-box; /* 边框和内边距包含在宽度内 */
-  transition: transform 0.3s ease;
+  flex: 0 0 calc(33.333% - 20px);
+  box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #ddd; /* 轻微边框增加区分度 */
 }
 
 .stock-container:hover {
-  transform: translateY(-5px); /* 鼠标悬停时上浮效果 */
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.2); /* 增加悬停时的阴影，增加立体感 */
 }
 
 .current-price, .stock {
@@ -69,17 +72,16 @@ button:hover {
   border-radius: 15px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  margin-bottom: 10px; /* 在股票信息和当前价格之间添加间距 */
+  margin-bottom: 10px;
 }
 
 .current-price {
-  background-color: #f9f9f9; /* 区分当前价格和股票信息的背景色 */
+  background-color: #f9f9f9;
 }
 
-/* 响应式布局：对于小屏幕，每行显示一个容器 */
 @media (max-width: 768px) {
   .stock-container {
-    flex: 0 0 100%; /* 小屏幕上股票容器宽度调整为100% */
+    flex: 0 0 100%;
     margin: 10px 0;
   }
 }
