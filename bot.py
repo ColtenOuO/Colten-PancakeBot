@@ -6,10 +6,11 @@ from config import MAIN_CHANNEL, TOKEN
 from stock.update import update_stocks
 
 bot = Bot()
-
 init = False
 
-
+async def broadcast_stock(stock_price: int,stock_count: int):
+    channel = bot.get_channel(1214270825075580990)
+    await channel.send(f'剛剛 Colten 用 {stock_price} 的價格買入了 {stock_price} 股「玻璃質量測試股份有限公司」的股份')
 async def broadcast_stock():
     while True:
         await bot.wait_until_ready()

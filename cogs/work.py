@@ -26,7 +26,7 @@ class WorkSystem(GroupCog, UserCog):
         user = await self.get_user(user_id)
 
         stock = await self.crud_stock.get_by_code("ruigao")
-        salary = round(random.uniform(0, stock.price / 5))
+        salary = round(random.uniform(0, 0))
 
         user_update = UserUpdate(money=user.money + salary)
         await self.crud_user.update_by_user_id(user_id, user_update)
