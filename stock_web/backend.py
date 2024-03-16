@@ -20,7 +20,7 @@ async def submit_buy_order(
 ):
     print(f"股数: {stock_amount}, 價格: {stock_price}")
 
-    await bot.get_channel(MAIN_CHANNEL).send("123")
+    await bot.get_channel(MAIN_CHANNEL).send(f"Colten 委託買入 {stock_amount} 股 玻璃質量測試股份有限公司的股票，開價每股 {stock_price}")
     return {"message": f"已提交買入股票訂單，股数: {stock_amount}, 價格: {stock_price}"}
 
 
