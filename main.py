@@ -1,6 +1,7 @@
-from asyncio import run
+from asyncio import create_task, run, gather
 
 from bot import run as bot_run
+from stock_web.backend import start_api
 
 DEBUG = False
 
@@ -46,7 +47,10 @@ async def main():
             )
             await crud_stock.create(stock)
 
-    await bot_run()
+    await gather(
+        create_task(bot_run()),
+        create_task(start_api()),
+    )
 
 if __name__ == "__main__":
     run(main=main())

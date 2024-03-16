@@ -1,12 +1,15 @@
 from pydantic import BaseModel
 from orjson import loads, dumps, OPT_INDENT_2
 
-from typing import Optional
-
 
 class MongoDBConfig(BaseModel):
     url: str = ""
     db_name: str = "colten-pancake"
+
+
+class APIConfig(BaseModel):
+    host: str = "0.0.0.0"
+    port: int = 8080
 
 
 class Config(BaseModel):
@@ -15,6 +18,7 @@ class Config(BaseModel):
     managers: list[int] = []
     main_channel: int = 0
     mongodb: MongoDBConfig = MongoDBConfig()
+    api_config: APIConfig = APIConfig()
 
 
 try:
@@ -34,3 +38,6 @@ MAIN_CHANNEL = config.main_channel
 
 MONGO_DB_URL = config.mongodb.url
 MONGO_DB_NAME = config.mongodb.db_name
+
+API_HOST = config.api_config.host
+API_PORT = config.api_config.port
