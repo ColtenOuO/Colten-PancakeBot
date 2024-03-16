@@ -1,5 +1,5 @@
 from discord import ApplicationContext, Bot, Member
-from discord.ext.commands import Cog, slash_command
+from discord.ext.commands import slash_command
 
 from math import log10
 from typing import Optional
@@ -138,25 +138,23 @@ class FishingSystem(UserCog):
             # Send announcement
             await ctx.send(f"#【公告】恭喜 {ctx.author.mention} 釣到了高睿，將獎池裡面的 {prize_money} 元全部拿走！")
 
+        if random() < 0.15:
+            tex_money = round(random.uniform(0, abs(receive_money / 5)))
+            receive_money -= tex_money
+
+            await ctx.send(f"由於 {ctx.author.mention} 使用了國家的海域，遭到了海巡署長的課稅，你的釣魚所得被收取了 {tex_money} 元的稅金")
+
+            guard_id = 1107545601010307086
+            guard = await self.get_user(guard_id)
+            guard_update = UserUpdate(money=guard.money + tex_money)
+            await self.crud_user.update_by_user_id(guard_id, guard_update)
+
         # Update DB
         user_update = UserUpdate(money=user.money + receive_money)
         await self.crud_user.update_by_user_id(user_id, user_update)
 
         # Respond
         await ctx.respond(f"你共釣起了 {fish_count} 隻魚，他們分別是{'、'.join(fish_result)}，共獲得了 {receive_money} 元")
-        tex = round(random.uniform(1,20))
-        if( tex >= 17 ):
-            tex_money = round(random.uniform(0,receive_money/5))
-            await ctx.send(f'由於 {ctx.author.mention} 使用了國家的海域，遭到了海巡署長的課稅，你剛剛釣魚所賺取的被收取了 {tex_money} 元的稅金')
-            user_id = ctx.author.id
-            user = await self.get_user(user_id)
-            user_update = UserUpdate(money=user.money - tex_money)
-            await self.crud_user.update_by_user_id(user_id, user_update)
-
-            user_id = 1107545601010307086
-            user = await self.get_user(user_id)
-            user_update = UserUpdate(money=user.money + tex_money)
-            await self.crud_user.update_by_user_id(user_id, user_update)
 
     @slash_command(
         name="steal",
