@@ -51,3 +51,26 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
 });
+
+document.querySelectorAll('.buy').forEach(button => {
+  button.addEventListener('click', function() {
+      const stockContainer = this.closest('.stock');
+      const stockCode = stockContainer.querySelector('span').textContent;
+      const currentPrice = stockContainer.parentNode.querySelector('.current-price span').textContent;
+
+      // 使用fetch發送資訊到後端
+      fetch('/submit-buy-order', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `stock_code=${stockCode}&stock_amount=1&stock_price=${currentPrice}` // 假設買1股
+      })
+      .then(response => response.json())
+      .then(data => {
+          console.log(data);
+          // 處理後端響應...
+      })
+      .catch(error => console.error('Error:', error));
+  });
+});

@@ -24,7 +24,7 @@ class BankSystem(GroupCog, UserCog):
 
     @group.command(
         name="upgrade",
-        description="花費 50 個鬆餅，讓你的銀行可以儲存更多的錢，每升級一次可以增加 5 萬元的額度"
+        description="花費 50 個鬆餅，讓你的銀行可以儲存更多的錢，每升級一次可以增加 10 萬元的額度"
     )
     async def upgrade(self, ctx: ApplicationContext):
         user_id = ctx.author.id
