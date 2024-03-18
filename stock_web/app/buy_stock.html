@@ -57,6 +57,7 @@
 <body>
 <h2>買入股票</h2>
 <form action="http://127.0.0.1:8000/submit-buy-order" method="post">
+  <input type="hidden" id="stock_code" name="stock_code">
   <label for="stock_amount">買入股數:</label>
   <input type="number" id="stock_amount" name="stock_amount" min="1" required>
   <label for="stock_price">價格:</label>
@@ -64,6 +65,28 @@
   <input type="submit" value="提交">
 </form>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 解析URL參數的函數
+    function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split('&');
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split('=');
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+    
+    // 填充股票代碼和價格到表單
+    const stockCode = getQueryVariable('stock_code');
+    const stockPrice = getQueryVariable('stock_price');
+    if (stockCode && stockPrice) {
+        document.getElementById('stock_code').value = decodeURIComponent(stockCode);
+        document.getElementById('stock_price').value = decodeURIComponent(stockPrice);
+    }
+});
+</script>
 
 </body>
 </html>

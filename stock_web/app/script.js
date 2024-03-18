@@ -11,66 +11,19 @@ document.addEventListener('DOMContentLoaded', function() {
   // 買進按鈕事件綁定
   document.querySelectorAll('.buy').forEach(button => {
     button.addEventListener('click', function() {
-      window.open('buy_stock.html', '_blank'); // 在新標籤頁中開啟buy_stock.html
+        const stockContainer = this.closest('.stock');
+        const stockCode = stockContainer.querySelector('span').textContent;
+        const currentPrice = stockContainer.parentNode.querySelector('.current-price span').textContent;
+        
+        const buyPageUrl = `buy_stock.html?stock_code=${encodeURIComponent(stockCode)}&stock_price=${encodeURIComponent(currentPrice)}`;
+        window.open(buyPageUrl, '_blank'); // 在新標籤頁中開啟buy_stock.html，並帶上股票代碼和價格作為URL參數
     });
   });
 
-  // 賣出按鈕事件綁定
+  // 賣出按鈕事件綁定（保持原有功能，無需更改）
   document.querySelectorAll('.sell').forEach(button => {
     button.addEventListener('click', function() {
       alert('賣出操作');
     });
-  });
-
-    // 獲取模態框元素
-  var modal = document.getElementById('buyModal');
-
-  // 獲取打開模態框的按鈕元素
-  var btns = document.querySelectorAll('.buy');
-
-  // 獲取模態框中的 <span> 元素，用於關閉模態框
-  var span = document.getElementsByClassName('close')[0];
-
-  // 當用戶點擊按鈕時打開模態框
-  btns.forEach(button => {
-    button.onclick = function() {
-      modal.style.display = 'block';
-    }
-  });
-
-  // 當用戶點擊 <span> (x), 關閉模態框
-  span.onclick = function() {
-    modal.style.display = 'none';
-  }
-
-  // 當用戶點擊模態框之外的區域，也可以關閉它
-  window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = 'none';
-    }
-  }
-
-});
-
-document.querySelectorAll('.buy').forEach(button => {
-  button.addEventListener('click', function() {
-      const stockContainer = this.closest('.stock');
-      const stockCode = stockContainer.querySelector('span').textContent;
-      const currentPrice = stockContainer.parentNode.querySelector('.current-price span').textContent;
-
-      // 使用fetch發送資訊到後端
-      fetch('/submit-buy-order', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: `stock_code=${stockCode}&stock_amount=1&stock_price=${currentPrice}` // 假設買1股
-      })
-      .then(response => response.json())
-      .then(data => {
-          console.log(data);
-          // 處理後端響應...
-      })
-      .catch(error => console.error('Error:', error));
   });
 });
