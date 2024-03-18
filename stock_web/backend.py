@@ -1,5 +1,9 @@
 from fastapi import FastAPI, Form
 from pydantic import BaseModel
+from uvicorn import Config, Server
+
+from bot import bot
+from config import API_HOST, API_PORT, MAIN_CHANNEL
 
 app = FastAPI()
 
