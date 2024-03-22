@@ -28,5 +28,10 @@
         "path": "cogs.work",
         "description": "work",
         "load_on_start": true
+    },
+    "CodeforcesSystem": {
+        "path": "cogs.codeforces",
+        "description": "codeforces",
+        "load_on_start": true
     }
 }
