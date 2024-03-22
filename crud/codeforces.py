@@ -57,7 +57,7 @@ class CodeforcesData:
 
         embed.set_image(url="https://userpic.codeforces.org/1416227/title/ff127beae02a9464.jpg")
 
-        embed.set_thumbnail(url="https://store-images.s-microsoft.com/image/apps.48094.14504742535903781.aedbca21-113a-48f4-b001-4204e73b22fc.503f883f-8339-4dc5-8609-81713a59281f")
+        embed.set_thumbnail(url=data['titlePhoto'])
 
         embed.set_footer(text="Codeforces 選手資料",
                         icon_url="https://userpic.codeforces.org/1416227/title/ff127beae02a9464.jpg")
