@@ -31,7 +31,9 @@ class CodeforcesSystem(GroupCog):
         description="查詢 codeforces handle 的資料"
     )
     async def query_handle(self, ctx: ApplicationContext,handle: str):
-        await ctx.respond(self.codeforcesdata.get_rating_by_handle(handle))
+        rating = self.codeforcesdata.get_rating_by_handle(handle)['rating']
+        rank = self.codeforcesdata.get_rating_by_handle(handle)['rank']
+        await ctx.respond(f'{handle} 的 Codeforces 分數為 {rating}，等級是 {rank} !')
 
 def setup(bot: Bot):
     bot.add_cog(CodeforcesSystem(bot=bot))
