@@ -15,24 +15,23 @@ from pymongo import MongoClient
 import json
 import requests
 
-with open('token.json') as f:
+with open('config.json') as f:
     tokens = json.load(f)
-    client = MongoClient(tokens['mongodb'].srvServiceName)
-class CodeforcesSystem:
+    client = MongoClient(tokens['mongodb']['srvServiceName'])
+class CodeforcesSystem(GroupCog):
     bot: Bot
+    codeforcesdata: CodeforcesData = CodeforcesData()
     group = SlashCommandGroup(
-        name="mining",
-        description="Mining"
+        name="codeforces",
+        description="codeforces"
     )
-
-    def __init__(self, bot) -> None:
-        self.bot = bot
-        self.codeforcesdata: CodeforcesData = CodeforcesData()
 
     @group.command(
         name="query",
         description="查詢 codeforces handle 的資料"
     )
-    async def start_mining(self, ctx: ApplicationContext,handle: str):
-        ctx.respond(self.codeforcesdata(handle))
+    async def query_handle(self, ctx: ApplicationContext,handle: str):
+        await ctx.respond(self.codeforcesdata.get_rating_by_handle(handle))
 
+def setup(bot: Bot):
+    bot.add_cog(CodeforcesSystem(bot=bot))

@@ -29,12 +29,12 @@ class FishingSystem(UserCog):
     @property
     def get_fish(self) -> str:
         return choice(self.fish_list)
-    @slash_command(
-        name="fishing contest",
-        description="開始一場釣魚競賽"
-    )
-    async def fishing_contest(self,ctx: ApplicationContext):
-        return
+   # @slash_command(
+   #     name="fishing contest",
+   #     description="開始一場釣魚競賽"
+   # )
+   # async def fishing_contest(self,ctx: ApplicationContext):
+    #    return
 
     @slash_command(
         name="money",
