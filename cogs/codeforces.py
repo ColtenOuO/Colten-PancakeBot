@@ -1,6 +1,10 @@
 from discord import (
     ApplicationContext,
     Bot,
+    Embed,
+    EmbedAuthor,
+    EmbedFooter,
+    Option,
     SlashCommandGroup
 )
 
@@ -31,9 +35,9 @@ class CodeforcesSystem(GroupCog):
         description="查詢 codeforces handle 的資料"
     )
     async def query_handle(self, ctx: ApplicationContext,handle: str):
-        rating = self.codeforcesdata.get_rating_by_handle(handle)['rating']
-        rank = self.codeforcesdata.get_rating_by_handle(handle)['rank']
-        await ctx.respond(f'{handle} 的 Codeforces 分數為 {rating}，等級是 {rank} !')
+        embed = self.codeforcesdata.get_info_by_handle(handle=handle)
+        if( embed == None ): await ctx.respond('查無此人，搞什麼')
+        else: await ctx.respond(embed=embed)
 
 def setup(bot: Bot):
     bot.add_cog(CodeforcesSystem(bot=bot))
