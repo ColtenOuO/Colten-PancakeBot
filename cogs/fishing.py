@@ -144,7 +144,7 @@ class FishingSystem(UserCog):
             # Send announcement
             await ctx.send(f"#【公告】恭喜 {ctx.author.mention} 釣到了高睿，將獎池裡面的 {prize_money} 元全部拿走！")
 
-        if random() < 0.15:
+        if random.random() < 0.15:
             tex_money = round(random.uniform(0, abs(receive_money / 5)))
             receive_money -= tex_money
 
