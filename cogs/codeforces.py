@@ -38,6 +38,7 @@ class CodeforcesSystem(GroupCog):
         embed = self.codeforcesdata.get_info_by_handle(handle=handle)
         if( embed == None ): await ctx.respond('查無此人，搞什麼')
         else: await ctx.respond(embed=embed)
+    async def 
 
 def setup(bot: Bot):
     bot.add_cog(CodeforcesSystem(bot=bot))

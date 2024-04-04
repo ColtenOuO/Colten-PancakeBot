@@ -197,7 +197,7 @@ class FishingSystem(UserCog):
             await ctx.respond("你現在都負債了還想偷錢R")
             return
 
-        if random() < 0.3:
+        if random.random() < 0.3:
             # Steal success
             # Calculate steal money and get experience
             steal_money = int(uniform(0, target_user.money / 2))
