@@ -21,8 +21,15 @@ class CodeforcesData:
         data = access_token.json()['result']['problems']
         index = random.randint(0,len(data))
         return data[index]
+    def get_status_by_handle(self):
+        url = "https://codeforces.com/api/user.status"
+        data = { "handle": 'ColtenOuO' }
+        access_token = requests.post(url, data = data)
+        if( access_token.json()['status'] != 'OK' ):
+            return None
+        data = access_token.json()['result']
+        return data[0]
 
-    
     def get_info_by_handle(self,handle: str):
         url = "https://codeforces.com/api/user.info"
         data = { "handles": handle }
