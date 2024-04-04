@@ -1,5 +1,6 @@
 import requests
 import json
+import random
 from discord import (
     ApplicationContext,
     Bot,
@@ -12,13 +13,16 @@ from discord import (
 import discord
 from datetime import datetime
 class CodeforcesData:
-    def get_rating_by_handle(self,handle: str) -> int:
-        url = "https://codeforces.com/api/user.info"
-        data = { "handles": handle }
-        access_token = requests.post(url, data = data)
+    def get_problem_by_rating(self):
+        url = "https://codeforces.com/api/problemset.problems"
+        access_token = requests.post(url)
         if( access_token.json()['status'] != 'OK' ):
-            return 'No User'
-        return access_token.json()['result'][0]
+            return None
+        data = access_token.json()['result']['problems']
+        index = random.randint(0,len(data))
+        return data[index]
+
+    
     def get_info_by_handle(self,handle: str):
         url = "https://codeforces.com/api/user.info"
         data = { "handles": handle }

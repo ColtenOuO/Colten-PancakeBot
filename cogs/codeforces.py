@@ -38,7 +38,15 @@ class CodeforcesSystem(GroupCog):
         embed = self.codeforcesdata.get_info_by_handle(handle=handle)
         if( embed == None ): await ctx.respond('查無此人，搞什麼')
         else: await ctx.respond(embed=embed)
-    async def 
+    
+    @group.command(
+        name="problem",
+        description="隨便戳一題 Codeforces 的題目"
+    )
+    async def random_problem(self, ctx: ApplicationContext):
+        data = self.codeforcesdata.get_problem_by_rating()
+        if( data == None ): await ctx.respond('System Error! 高睿結帳+10')
+        else: await ctx.respond(f'https://codeforces.com/contest/{data["contestId"]}/problem/{data["index"]}')
 
 def setup(bot: Bot):
     bot.add_cog(CodeforcesSystem(bot=bot))
