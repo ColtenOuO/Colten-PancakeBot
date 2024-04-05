@@ -57,7 +57,7 @@ class CRUDBase(Generic[SchemaType, SchemaUpdateType]):
         if limit:
             cursor = cursor.limit(limit)
         results = await cursor.to_list(None)
-        return list(map(lambda result: SchemaType(**result), results))
+        return list(map(lambda result: self._schema_cls(**result), results))
 
     async def update(
         self,

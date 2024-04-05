@@ -33,5 +33,10 @@
         "path": "cogs.codeforces",
         "description": "codeforces",
         "load_on_start": true
+    },
+    "BillingSystem":{
+        "path": "cogs.billing",
+        "description": "billing",
+        "load_on_start": true
     }
 }
