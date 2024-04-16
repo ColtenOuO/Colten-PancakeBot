@@ -8,6 +8,10 @@ from stock.update import update_stocks
 bot = Bot()
 init = False
 
+async def broadcast_buy(stock_id: str, stock_amount: int, stock_price: int):
+    channel = bot.get_channel(MAIN_CHANNEL)
+    await channel.send('買入成功')
+    
 
 async def broadcast_stock():
     while True:
