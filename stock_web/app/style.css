@@ -1,9 +1,11 @@
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
+  margin: 10;
   background-color: #f4f4f4;
-  padding-top: 80px;
+  padding-top: 100px;
   min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .header {
@@ -27,39 +29,16 @@ body {
   margin-left: 20px;
 }
 
-button {
-  display: block;
-  width: 80%;
-  padding: 15px;
-  margin: 10px auto;
-  border: none;
-  border-radius: 10px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s, box-shadow 0.3s;
-}
-
-button:hover {
-  background-color: #0056b3;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-.stocks-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-}
 
 .stock-container {
   margin: 10px;
   flex: 0 0 calc(33.333% - 20px);
+  height: 200px;
   box-sizing: border-box;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid #ddd; /* 轻微边框增加区分度 */
 }
+
 
 .stock-container:hover {
   transform: translateY(-5px);
@@ -79,9 +58,33 @@ button:hover {
   background-color: #f9f9f9;
 }
 
-@media (max-width: 768px) {
-  .stock-container {
-    flex: 0 0 100%;
-    margin: 10px 0;
-  }
+button {
+  display: block;
+  width: 50%;
+  padding: 15px;
+  margin: 10px auto;
+  border: none;
+  border-radius: 10px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.loggin-button {
+  display: block;
+  width: 20%;
+  padding: 15px;
+  margin: 10px auto;
+  border: none;
+  border-radius: 10px;
+  background-color: #b48339;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
