@@ -11,11 +11,17 @@ document.addEventListener('DOMContentLoaded', function() {
   // 買進按鈕事件綁定
   document.querySelectorAll('.buy').forEach(button => {
     button.addEventListener('click', function() {
+
+        var span = document.getElementById('companyInfo');
+        var text = span.textContent;
+        var parts = text.split(':')
+
         const stockContainer = this.closest('.stock');
-        const stockCode = stockContainer.querySelector('span').textContent;
+        const stockCode = parts[1].trim();
+        const stockName = parts[0].trim();
         const currentPrice = stockContainer.parentNode.querySelector('.current-price span').textContent;
         
-        const buyPageUrl = `buy_stock.html?stock_code=${encodeURIComponent(stockCode)}&stock_price=${encodeURIComponent(currentPrice)}`;
+        const buyPageUrl = `buy_stock.html?stock_code=${encodeURIComponent(stockCode)}&stock_price=${encodeURIComponent(currentPrice)}&stock_name=${encodeURIComponent(stockName)}`;
         window.open(buyPageUrl, '_blank'); // 在新標籤頁中開啟buy_stock.html，並帶上股票代碼和價格作為URL參數
     });
   });

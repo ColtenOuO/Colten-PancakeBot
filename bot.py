@@ -8,9 +8,9 @@ from stock.update import update_stocks
 bot = Bot()
 init = False
 
-async def broadcast_buy(stock_id: str, stock_amount: int, stock_price: int):
+async def broadcast_buy(stock_name: str,stock_code: str, stock_amount: int, stock_price: int):
     channel = bot.get_channel(MAIN_CHANNEL)
-    await channel.send('買入成功')
+    await channel.send(f'委託成功！股票名稱：{stock_name}，委託價格 {stock_price}')
     
 
 async def broadcast_stock():
@@ -18,8 +18,8 @@ async def broadcast_stock():
         await bot.wait_until_ready()
         channel = bot.get_channel(MAIN_CHANNEL)
         embeds = await update_stocks()
-        if len(embeds) > 0:
-            await channel.send(embeds=embeds)
+        #if len(embeds) > 0:
+            #await channel.send(embeds=embeds)
         await asleep(600)
 
 

@@ -11,20 +11,22 @@ app = FastAPI()
 
 class BuyOrder(BaseModel):
     stock_code: str  # 添加股票代碼字段
+    stock_name: str
     stock_amount: int
     stock_price: float
 
 @app.post("/submit-buy-order")
 async def submit_buy_order(
     stock_code: str = Form(),  # 接收股票代碼
+    stock_name: str = Form(),
     stock_amount: int = Form(),
-    stock_price: float = Form()
+    stock_price: float = Form(),
 ):
     # 處理買入訂單，使用stock_code來識別股票
-    print(f"股票代碼: {stock_code}, 股数: {stock_amount}, 價格: {stock_price}")
-    await broadcast_buy(stock_id=stock_code,stock_amount=stock_amount,stock_price=stock_price)
+    print(f"股票名稱：{stock_name} 股票代碼: {stock_code}, 股数: {stock_amount}, 價格: {stock_price}")
+    await broadcast_buy(stock_name=stock_name,stock_id=stock_code,stock_amount=stock_amount,stock_price=stock_price)
     # 示例回應
-    return {"message": f"已提交買入股票訂單，股票代碼: {stock_code}, 股数: {stock_amount}, 價格: {stock_price}"}
+    return {"操作成功！"}
 
 
 async def start_api():
