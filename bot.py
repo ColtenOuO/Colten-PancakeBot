@@ -10,7 +10,7 @@ init = False
 
 async def broadcast_buy(stock_name: str,stock_code: str, stock_amount: int, stock_price: int):
     channel = bot.get_channel(MAIN_CHANNEL)
-    await channel.send(f'委託成功！股票名稱：{stock_name}，委託價格 {stock_price}')
+    await channel.send(f'委託成功！買進股票名稱：{stock_name}，委託買進價格 {stock_price}')
     
 
 async def broadcast_stock():

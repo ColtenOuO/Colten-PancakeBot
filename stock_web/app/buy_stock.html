@@ -68,13 +68,12 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    document.getElementById('stcok_name').value = urlParams.get('stock_name')
-    document.getElementById('stock_code').value = urlParams.get('stock_code')
-    document.getElementById('stock_price').value = urlParams.get('stock_price')
-    document.getElementById('stock_amount').value = urlParams.get('stock_amount')
+    document.getElementById('stock_name').value = urlParams.get('stock_name');
+    document.getElementById('stock_code').value = urlParams.get('stock_code');
+    document.getElementById('stock_price').value = urlParams.get('stock_price');
+    document.getElementById('stock_amount').value = 1000;
 });
 </script>
 
