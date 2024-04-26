@@ -19,6 +19,7 @@ class Config(BaseModel):
     main_channel: int = 0
     mongodb: MongoDBConfig = MongoDBConfig()
     api_config: APIConfig = APIConfig()
+    stock_channel: int = 0
 
 
 try:
@@ -35,9 +36,11 @@ TOKEN = config.token
 DATA_DIR = config.data_dir
 MANAGERS = config.managers
 MAIN_CHANNEL = config.main_channel
+STCOK_CHANNEL = config.stock_channel
 
 MONGO_DB_URL = config.mongodb.url
 MONGO_DB_NAME = config.mongodb.db_name
 
 API_HOST = config.api_config.host
 API_PORT = config.api_config.port
+

@@ -2,10 +2,10 @@ from fastapi import FastAPI, Form
 from pydantic import BaseModel
 from uvicorn import Config, Server
 from discord import Bot
-from bot import broadcast_buy
+from bot import broadcast_buy, broadcast_sell
 
 from bot import bot
-from config import API_HOST, API_PORT, MAIN_CHANNEL
+from config import API_HOST, API_PORT, MAIN_CHANNEL, STCOK_CHANNEL
 
 app = FastAPI()
 
@@ -17,17 +17,25 @@ class BuyOrder(BaseModel):
 
 @app.post("/submit-buy-order")
 async def submit_buy_order(
-    stock_code: str = Form(),  # 接收股票代碼
+    stock_code: str = Form(),
     stock_name: str = Form(),
     stock_amount: int = Form(),
     stock_price: float = Form(),
 ):
-    # 處理買入訂單，使用stock_code來識別股票
+
     print(f"股票名稱：{stock_name} 股票代碼: {stock_code}, 股数: {stock_amount}, 價格: {stock_price}")
     await broadcast_buy(stock_name=stock_name,stock_code=stock_code,stock_amount=stock_amount,stock_price=stock_price)
-    # 示例回應
-    return {"OK！"}
-
+    return {"OK"}
+@app.post("/submit-sell-order")
+async def submit_sell_order (
+    stock_code: str = Form(),
+    stock_name: str = Form(),
+    stock_amount: int = Form(),
+    stock_price: float = Form(),
+):
+    print(f"股票名稱：{stock_name} 股票代碼: {stock_code}, 股数: {stock_amount}, 價格: {stock_price}")
+    await broadcast_sell(stock_name=stock_name,stock_code=stock_code,stock_amount=stock_amount,stock_price=stock_price)
+    return {"OK"} 
 
 async def start_api():
     config = Config(

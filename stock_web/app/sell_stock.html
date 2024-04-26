@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>買入股票</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+  
+  h2 {
+    color: #333;
+    text-align: center;
+  }
+
+  form {
+    background-color: #fff;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  label {
+    display: block;
+    margin: 10px 0 5px;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px; /* 更好的空間 */
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* 防止邊框使元素寬度增加 */
+  }
+
+  input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+</style>
+</head>
+<body>
+<h2>現股賣出</h2>
+<form action="http://127.0.0.1:8000/submit-sell-order" method="post">
+  <input type="hidden" id="stock_code" name="stock_code">
+  <input type="hidden" id="stock_name" name="stock_name">
+  <label for="stock_amount">賣出股數:</label>
+  <input type="number" id="stock_amount" name="stock_amount" min="1" required>
+  <label for="stock_price">價格:</label>
+  <input type="number" id="stock_price" name="stock_price" step="0.01" required>
+  <input type="submit" value="提交">
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    document.getElementById('stock_name').value = urlParams.get('stock_name');
+    document.getElementById('stock_code').value = urlParams.get('stock_code');
+    document.getElementById('stock_price').value = urlParams.get('stock_price');
+    document.getElementById('stock_amount').value = 1000;
+});
+</script>
+
+</body>
+</html>

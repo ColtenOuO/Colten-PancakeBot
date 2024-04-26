@@ -2,16 +2,18 @@ from discord import Bot
 
 from asyncio import get_event_loop, sleep as asleep
 
-from config import MAIN_CHANNEL, TOKEN
+from config import MAIN_CHANNEL, TOKEN, STCOK_CHANNEL
 from stock.update import update_stocks
 
 bot = Bot()
 init = False
 
 async def broadcast_buy(stock_name: str,stock_code: str, stock_amount: int, stock_price: int):
-    channel = bot.get_channel(MAIN_CHANNEL)
-    await channel.send(f'委託成功！買進股票名稱：{stock_name}，委託買進價格 {stock_price}')
-    
+    channel = bot.get_channel(STCOK_CHANNEL)
+    await channel.send(f'【委託買進單】買進股票名稱：{stock_name}，委託買進價格 {stock_price}')
+async def broadcast_sell(stock_name: str,stock_code: str, stock_amount: int, stock_price: int):
+    channel = bot.get_channel(STCOK_CHANNEL)
+    await channel.send(f'【委託賣出單】賣出股票名稱：{stock_name}，委託賣出價格 {stock_price}')
 
 async def broadcast_stock():
     while True:
