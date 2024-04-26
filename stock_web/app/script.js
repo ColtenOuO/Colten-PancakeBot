@@ -23,10 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.open(buyPageUrl, '_blank'); // 在新標籤頁中開啟buy_stock.html，並帶上股票代碼和價格作為URL參數
     });
   });
-  
-
-  // 賣出按鈕事件綁定（保持原有功能，無需更改）
-  document.querySelectorAll('.sell').forEach(button => {
+document.querySelectorAll('.sell').forEach(button => {
     button.addEventListener('click', function() {
       const stockContainer = this.closest('.stock');
         const span = stockContainer.querySelector('span');
@@ -40,4 +37,8 @@ document.addEventListener('DOMContentLoaded', function() {
         window.open(sellPageUrl, '_blank'); // 在新標籤頁中開啟buy_stock.html，並帶上股票代碼和價格作為URL參數
     });
   });
+});
+
+document.getElementById('login-button').addEventListener('click', function() {
+  window.location.href = 'https://discord.com/oauth2/authorize?client_id=1233320856772673536&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A5500%2Fstock_web%2Fapp%2Fmain.html&scope=identify+email'; // 替換這裡的 URL
 });

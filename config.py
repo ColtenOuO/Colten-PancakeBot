@@ -11,6 +11,10 @@ class APIConfig(BaseModel):
     host: str = "127.0.0.1"
     port: int = 8000
 
+class DiscordLoginConfig(BaseModel):
+    client_id: int
+    client_secret: str
+    redircet_url: str
 
 class Config(BaseModel):
     token: str = ""
@@ -20,6 +24,7 @@ class Config(BaseModel):
     mongodb: MongoDBConfig = MongoDBConfig()
     api_config: APIConfig = APIConfig()
     stock_channel: int = 0
+    discord_login: DiscordLoginConfig
 
 
 try:
@@ -44,3 +49,6 @@ MONGO_DB_NAME = config.mongodb.db_name
 API_HOST = config.api_config.host
 API_PORT = config.api_config.port
 
+LOGIN_CLIENT_ID = config.discord_login.client_id
+LOGIN_CLIENT_SECRET = config.discord_login.client_secret
+LOGIN_REDIRCET_URL = config.discord_login.redircet_url
