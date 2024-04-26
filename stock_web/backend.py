@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Form, Request, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 import httpx 
 import os
 from pydantic import BaseModel
@@ -14,6 +15,15 @@ app = FastAPI()
 
 DISCORD_TOKEN_URL = "https://discord.com/api/oauth2/token"
 DISCORD_API_URL = "https://discord.com/api/users/@me"
+# 設定CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://127.0.0.1:5500"],  # 允許的源列表，可以使用["*"]來允許所有源
+    allow_credentials=True,
+    allow_methods=["*"],  # 允許的方法列表，["*"] 表示所有
+    allow_headers=["*"],  # 允許的標頭列表，["*"] 表示所有
+)
+
 
 class BuyOrder(BaseModel):
     stock_code: str  # 添加股票代碼字段
@@ -56,6 +66,9 @@ async def auth_callback(request: Request):
     }
     async with httpx.AsyncClient() as client:
         token_response = await client.post(DISCORD_TOKEN_URL, data=token_data)
+        if token_response.status_code != 200:
+            print(f"Error getting token: {token_response.text}")
+
         token_response_json = token_response.json()
         access_token = token_response_json.get("access_token")
         
@@ -65,7 +78,11 @@ async def auth_callback(request: Request):
         }
         user_response = await client.get(DISCORD_API_URL, headers=headers)
         user_data = user_response.json()
+        print(user_data)
         return user_data
+
+
+
 
 async def start_api():
     config = Config(

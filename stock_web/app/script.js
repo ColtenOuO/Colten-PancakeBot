@@ -8,6 +8,10 @@ document.addEventListener('DOMContentLoaded', function() {
   
   setInterval(updateTime, 1000); // 每秒更新時間
 
+  document.getElementById('login-message').addEventListener('click', function() {
+    window.location.href = 'https://discord.com/oauth2/authorize?client_id=1233320856772673536&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A5500%2Fstock_web%2Fapp%2Fmain.html&scope=identify+email';
+  });
+
   document.querySelectorAll('.buy').forEach(button => {
     button.addEventListener('click', function() {
         // 找到該按鈕的股票資訊
@@ -39,6 +43,37 @@ document.querySelectorAll('.sell').forEach(button => {
   });
 });
 
-document.getElementById('login-button').addEventListener('click', function() {
-  window.location.href = 'https://discord.com/oauth2/authorize?client_id=1233320856772673536&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A5500%2Fstock_web%2Fapp%2Fmain.html&scope=identify+email'; // 替換這裡的 URL
-});
+// 正確的 window.onload 用法
+window.onload = function() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  if (code) {
+    fetch(`http://127.0.0.1:8000/auth/callback`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: `code=${encodeURIComponent(code)}`
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok: ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+      if( data.username ) {
+        document.getElementById('login-message').textContent = `歡迎，${data.username}！`;
+      }
+      else {
+        document.getElementById('login-message').textContent = `登入後繼續`;
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      document.getElementById('login-message').textContent = 'Error';
+    });
+  }
+};
+

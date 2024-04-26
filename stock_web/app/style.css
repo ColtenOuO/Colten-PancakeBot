@@ -8,6 +8,17 @@ body {
   flex-wrap: wrap;
 }
 
+.login-message {
+  padding: 10px;
+  font-size: 16px;
+  color: #333;
+  background-color: #f4f4f4;
+  text-align: center;
+  border-radius: 5px;
+  margin: 20px;
+  cursor: pointer; /* 加入指針游標以增強互動性 */
+}
+
 .header {
   width: 100%;
   display: flex;
