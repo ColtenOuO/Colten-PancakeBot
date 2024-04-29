@@ -11,8 +11,11 @@ from bot import bot
 from config import API_HOST, API_PORT, MAIN_CHANNEL, STCOK_CHANNEL
 from config import LOGIN_CLIENT_ID, LOGIN_CLIENT_SECRET, LOGIN_REDIRCET_URL
 
-app = FastAPI()
+from motor.motor_asyncio import AsyncIOMotorClient
+from crud.stock import CRUDStock
 
+crud_stock: CRUDStock = CRUDStock()
+app = FastAPI()
 DISCORD_TOKEN_URL = "https://discord.com/api/oauth2/token"
 DISCORD_API_URL = "https://discord.com/api/users/@me"
 # 設定CORS
@@ -24,12 +27,12 @@ app.add_middleware(
     allow_headers=["*"],  # 允許的標頭列表，["*"] 表示所有
 )
 
-
-class BuyOrder(BaseModel):
-    stock_code: str  # 添加股票代碼字段
-    stock_name: str
-    stock_amount: int
-    stock_price: float
+@app.get("/price/{stock_id}")
+async def get_price(stock_id: str):
+    stock = await crud_stock.get_by_code(stock_id)
+    if stock:
+        return {"price": stock.price}
+    return {"error": "Stock not found"}
 
 @app.post("/submit-buy-order")
 async def submit_buy_order(
@@ -37,10 +40,11 @@ async def submit_buy_order(
     stock_name: str = Form(),
     stock_amount: int = Form(),
     stock_price: float = Form(),
+    discord_id: int = Form()
 ):
 
     print(f"股票名稱：{stock_name} 股票代碼: {stock_code}, 股数: {stock_amount}, 價格: {stock_price}")
-    await broadcast_buy(stock_name=stock_name,stock_code=stock_code,stock_amount=stock_amount,stock_price=stock_price)
+    await broadcast_buy(discord_id=discord_id, stock_name=stock_name,stock_code=stock_code,stock_amount=stock_amount,stock_price=stock_price)
     return {"OK"}
 @app.post("/submit-sell-order")
 async def submit_sell_order (
@@ -48,9 +52,10 @@ async def submit_sell_order (
     stock_name: str = Form(),
     stock_amount: int = Form(),
     stock_price: float = Form(),
+    stock_id: int = Form()
 ):
     print(f"股票名稱：{stock_name} 股票代碼: {stock_code}, 股数: {stock_amount}, 價格: {stock_price}")
-    await broadcast_sell(stock_name=stock_name,stock_code=stock_code,stock_amount=stock_amount,stock_price=stock_price)
+    await broadcast_sell(discord_id=discord_id, stock_name=stock_name,stock_code=stock_code,stock_amount=stock_amount,stock_price=stock_price)
     return {"OK"} 
 
 @app.post("/auth/callback")

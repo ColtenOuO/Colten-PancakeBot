@@ -63,6 +63,7 @@
   <input type="number" id="stock_amount" name="stock_amount" min="1" required>
   <label for="stock_price">價格:</label>
   <input type="number" id="stock_price" name="stock_price" step="0.01" required>
+  <input type="hidden" id="discord_id" name="discord_id">
   <input type="submit" value="提交">
 </form>
 
@@ -73,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('stock_name').value = urlParams.get('stock_name');
     document.getElementById('stock_code').value = urlParams.get('stock_code');
     document.getElementById('stock_price').value = urlParams.get('stock_price');
+    document.getElementById('discord_id').value = urlParams.get('discord_id');
     document.getElementById('stock_amount').value = 1000;
 });
 </script>

@@ -8,6 +8,50 @@ body {
   flex-wrap: wrap;
 }
 
+button {
+  background-color: #e1ecf4;
+  border-radius: 3px;
+  border: 1px solid #7aa7c7;
+  box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+  box-sizing: border-box;
+  color: #39739d;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.15385;
+  margin: 10px;
+  outline: none;
+  padding: 8px .8em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+  width: 50%;
+}
+
+button:hover,
+button:focus {
+  background-color: #b3d3ea;
+  color: #2c5777;
+}
+
+button:focus {
+  box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+}
+
+button:active {
+  background-color: #a0c7e4;
+  box-shadow: none;
+  color: #2c5777;
+}
+
+
 .login-message {
   padding: 10px;
   font-size: 16px;
@@ -69,7 +113,7 @@ body {
   background-color: #f9f9f9;
 }
 
-button {
+/*button {
   display: block;
   width: 50%;
   padding: 15px;
@@ -80,7 +124,7 @@ button {
   color: white;
   cursor: pointer;
   transition: background-color 0.3s, box-shadow 0.3s;
-}
+} */
 
 .loggin-button {
   display: block;
@@ -95,7 +139,7 @@ button {
   transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-button:hover {
+/*button:hover {
   background-color: #0056b3;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
+} */
