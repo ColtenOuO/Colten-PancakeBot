@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const stockCode = parts[1].trim();
         const stockName = parts[0].trim();
         const currentPrice = stockContainer.parentNode.querySelector('.current-price span').textContent;
-        
-        const buyPageUrl = `buy_stock.html?stock_code=${encodeURIComponent(stockCode)}&stock_price=${encodeURIComponent(currentPrice)}&stock_name=${encodeURIComponent(stockName)}`;
+        const user_id = document.getElementById('discord_id').value;
+        const buyPageUrl = `buy_stock.html?stock_code=${encodeURIComponent(stockCode)}&stock_price=${encodeURIComponent(currentPrice)}&stock_name=${encodeURIComponent(stockName)}&discord_id=${encodeURIComponent(user_id)}`;
         window.open(buyPageUrl, '_blank'); // 在新標籤頁中開啟buy_stock.html，並帶上股票代碼和價格作為URL參數
     });
   });
@@ -39,7 +39,7 @@ document.querySelectorAll('.sell').forEach(button => {
         const user_id = document.getElementById('discord_id').value;
 
         const sellPageUrl = `sell_stock.html?stock_code=${encodeURIComponent(stockCode)}&stock_price=${encodeURIComponent(currentPrice)}&stock_name=${encodeURIComponent(stockName)}
-        &user_id=${encodeURIComponent(user_id)}`;
+        &discord_id=${encodeURIComponent(user_id)}`;
         window.open(sellPageUrl, '_blank'); // 在新標籤頁中開啟buy_stock.html，並帶上股票代碼和價格作為URL參數
     });
   });
