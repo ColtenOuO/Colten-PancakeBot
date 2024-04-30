@@ -5,6 +5,7 @@ from schemas import Stock, StockUpdate
 from .base import CRUDBase
 
 
+
 class CRUDStock(CRUDBase[Stock, StockUpdate]):
     def __init__(self) -> None:
         super().__init__("stock_data", Stock)

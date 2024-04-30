@@ -64,7 +64,7 @@
   <label for="stock_price">價格:</label>
   <input type="number" id="stock_price" name="stock_price" step="0.01" required>
   <input type="hidden" id="discord_id" name="discord_id">
-  <input type="submit" value="提交">
+  <input id="submit" type="submit" value="提交">
 </form>
 
 <script>
@@ -76,6 +76,18 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('stock_price').value = urlParams.get('stock_price');
     document.getElementById('discord_id').value = urlParams.get('discord_id');
     document.getElementById('stock_amount').value = 1000;
+
+    document.getElementById('submit').addEventListener('click', function() {
+      const stock_name = document.getElementById('stock_name').value;
+      const stock_code = document.getElementById('stock_code').value;
+      const stock_price = document.getElementById('stock_price').value;
+      const discord_id = document.getElementById('discord_id').value;
+      const stock_amount = document.getElementById('stock_amount').value;
+      const option = 'sell';
+      fetch(`http://127.0.0.1:8000/order-match/${option}/${discord_id}/${stock_code}/${stock_name}/${stock_price}/${stock_amount}`)
+      .then(response => response.json())
+      .catch(error => console.error('Error fetching data:', error));
+    });
 });
 </script>
 

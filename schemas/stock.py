@@ -24,5 +24,9 @@ class Stock(BaseModel):
 class StockUpdate(BaseModel):
     code: Optional[str] = None
     price: Optional[int] = None
-    delta: Optional[int] = None
-    remain: Optional[int] = None
+    delta: Optional[int] = None                             
+
+class StockOrder(BaseModel):
+    discord_id: Optional[int] = None
+    code: Optional[int] = None
+    price: Optional[int] = None

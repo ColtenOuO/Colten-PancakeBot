@@ -14,6 +14,11 @@ async def broadcast_buy(discord_id: int, stock_name: str,stock_code: str, stock_
 async def broadcast_sell(discord_id: int, stock_name: str,stock_code: str, stock_amount: int, stock_price: int):
     channel = bot.get_channel(STCOK_CHANNEL)
     await channel.send(f'【委託賣出單】<@{discord_id}> 委託賣出股票：{stock_name} 共 {stock_amount} 股，委託賣出價格 {stock_price} / 1 股')
+async def broadcast_match(buy_id: int, sell_id:int, stock_name: str, stock_code: str, stock_amount: int, stock_price: int):
+    channel = bot.get_channel(STCOK_CHANNEL)
+    await channel.send(f'【買進成交】<@{buy_id}> 委託買進 {stock_code} 共 {stock_amount} 股，委託買進價格 {stock_price}，已全數成交')
+    await channel.send(f'【賣出成交】<@{sell_id}> 委託賣出 {stock_code} 共 {stock_amount} 股，委託賣出價格 {stock_price}，已全數成交')
+
 
 async def broadcast_stock():
     while True:
